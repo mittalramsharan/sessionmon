@@ -47,15 +47,32 @@ public class SessionMonServlet extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
-		SessionInfo sessionInfo = new SessionInfo(request);
-		Report report = ReportFactory.create(ReportFactory.REPORT_TYPE_XML);
-		
-		response.setContentType("text/xml");
 		PrintWriter out = response.getWriter();
 		
-		out.print(report.generate(sessionInfo));
+		String commandParam = request.getParameter("command");
+		CommandEnum command = null;
 		
+		try {
+			command = CommandEnum.valueOf(commandParam);
+		} catch(IllegalArgumentException e) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+		}
+		
+		if(command.equals(CommandEnum.REPORT)) {
+			SessionInfo sessionInfo = new SessionInfo(request);
+			Report report = ReportFactory.create(request.getParameter("type"));
+			response.setContentType(report.getMIMEType());
+			out.print(report.generate(sessionInfo));
+		} else if(command.equals(CommandEnum.ADD_SESSION_PARAMETERS)) {
+			SessionTesterTool.addStringAttributes(10, request.getSession());
+			out.print("completed");
+		} else if(command.equals(CommandEnum.REMOVE_SESSION_PARAMETERS)) {
+			SessionTesterTool.removeAttributes(request.getSession());
+			out.print("completed");
+		} else if(command.equals(CommandEnum.INVALIDATE_SESSION)) {
+			request.getSession().invalidate();
+			out.print("completed");
+		}
 		out.flush();
 		out.close();
 	}

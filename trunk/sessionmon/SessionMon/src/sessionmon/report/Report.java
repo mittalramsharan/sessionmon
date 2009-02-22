@@ -15,6 +15,8 @@ public abstract class Report {
 	
 	public abstract String generate(SessionInfo info);
 	
+	public abstract String getMIMEType();
+	
 	protected String format(Date date) {
 		return DATE_FORMAT.format(date);
 	}
