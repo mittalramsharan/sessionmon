@@ -3,7 +3,7 @@ package sessionmon;
 public class SessionAttribute {
 	private String name = null;
 	private String objectType = null;
-	private String toString = null;
+	private Object object = null;
 	
 	public String getName() {
 		return name;
@@ -11,17 +11,16 @@ public class SessionAttribute {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getToString() {
-		return toString;
-	}
-	public void setToString(String toString) {
-		this.toString = toString;
-	}
 	public String getObjectType() {
 		return objectType;
 	}
 	public void setObjectType(String objectType) {
 		this.objectType = objectType;
 	}
-
+	public Object getObject() {
+		return object;
+	}
+	public void setObject(Object object) {
+		this.object = object;
+	}
 }

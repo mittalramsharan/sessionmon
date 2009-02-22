@@ -23,6 +23,7 @@ public class SessionInfo {
 	private Date creationTime = null;
 	private Date lastAccessedTime = null;
 	private int maxInactiveIntervalInSeconds = 0;
+	private boolean isNew = false;
 	
 	public SessionInfo() {}
 	
@@ -35,16 +36,17 @@ public class SessionInfo {
 		attributes = new ArrayList();
 		while(sessionAttributeNames.hasMoreElements()) {
 			String attrName = (String)sessionAttributeNames.nextElement();
-		   Object obj = session.getAttribute(attrName);
-		   //for determining total byte size
-		   os.writeObject(obj);
-		   
-		   //store as SessionAttribute
-		   SessionAttribute attr = new SessionAttribute();
-		   attr.setName(attrName);
-		   attr.setObjectType(obj.getClass().getName());
-		   attr.setToString(obj.toString());
-		   attributes.add(attr);
+			Object obj = session.getAttribute(attrName);
+			if(obj != null) {
+				//for determining total byte size
+				os.writeObject(obj);
+				//store as SessionAttribute
+				SessionAttribute attr = new SessionAttribute();
+				attr.setName(attrName);
+				attr.setObjectType(obj.getClass().getName());
+				attr.setObject(obj);
+				attributes.add(attr);
+			}
 		}
 		
 		setCreationTime(session.getCreationTime());
@@ -52,6 +54,7 @@ public class SessionInfo {
 		setLastAccessedTime(session.getLastAccessedTime());
 		setMaxInactiveIntervalInSeconds(session.getMaxInactiveInterval());
 		setTotalByteSize(bs.size());
+		setNew(session.isNew());
 		
 		setServerName(request.getServerName());
 		setServerPort(request.getServerPort());
@@ -115,6 +118,14 @@ public class SessionInfo {
 
 	public void setAttributes(Collection attributes) {
 		this.attributes = attributes;
+	}
+
+	public boolean isNew() {
+		return isNew;
+	}
+
+	public void setNew(boolean isNew) {
+		this.isNew = isNew;
 	}
 
 }
