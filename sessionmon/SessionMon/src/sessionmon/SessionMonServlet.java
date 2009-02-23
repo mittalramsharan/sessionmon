@@ -13,6 +13,9 @@ import sessionmon.report.ReportFactory;
 
 public class SessionMonServlet extends HttpServlet {
 	
+	public static final String REQUEST_PARAMETER_COMMAND = "command";
+	public static final String REQUEST_PARAMETER_TYPE = "type";
+	
 	/**
 	 * Constructor of the object.
 	 */
@@ -49,29 +52,23 @@ public class SessionMonServlet extends HttpServlet {
 			throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
 		
-		String commandParam = request.getParameter("command");
+		String commandParam = request.getParameter(REQUEST_PARAMETER_COMMAND);
 		CommandEnum command = null;
-		
 		try {
 			command = CommandEnum.valueOf(commandParam);
 		} catch(IllegalArgumentException e) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+			return;
 		}
 		
-		if(command.equals(CommandEnum.REPORT)) {
+		Report report = ReportFactory.create(command, request.getParameter(REQUEST_PARAMETER_TYPE));
+		response.setContentType(report.getMIMEType());
+		if(command.equals(CommandEnum.DUMP)) {
 			SessionInfo sessionInfo = new SessionInfo(request);
-			Report report = ReportFactory.create(request.getParameter("type"));
-			response.setContentType(report.getMIMEType());
 			out.print(report.generate(sessionInfo));
-		} else if(command.equals(CommandEnum.ADD_SESSION_PARAMETERS)) {
-			SessionTesterTool.addStringAttributes(10, request.getSession());
-			out.print("completed");
-		} else if(command.equals(CommandEnum.REMOVE_SESSION_PARAMETERS)) {
-			SessionTesterTool.removeAttributes(request.getSession());
-			out.print("completed");
-		} else if(command.equals(CommandEnum.INVALIDATE_SESSION)) {
-			request.getSession().invalidate();
-			out.print("completed");
+		} else if(command.equals(CommandEnum.TEST)) {
+			SessionTest sessionTest = new SessionTest(request);
+			out.print(report.generate(sessionTest));
 		}
 		out.flush();
 		out.close();

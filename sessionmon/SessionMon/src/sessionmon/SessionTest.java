@@ -3,11 +3,16 @@ package sessionmon;
 import java.util.Enumeration;
 import java.util.Random;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import sessionmon.util.RandomStringUtils;
 
-public class SessionTesterTool {
+public class SessionTest {
+	public SessionTest(HttpServletRequest request) {
+		
+	}
+	
 	public static void addStringAttributes(int numOfAttributes, HttpSession session) {
 		for(int i=0; i<numOfAttributes; i++) {
 			String name = "sessionAttribute_" + i;

@@ -2,11 +2,9 @@ package sessionmon.report;
 
 import org.json.JSONObject;
 
-import sessionmon.SessionInfo;
-
-public class JSONReport extends Report {
+public class SessionDumpReportJSON extends Report {
 	
-	public String generate(SessionInfo info) {
+	public String generate(Object info) {
 		JSONObject jo = new JSONObject(info);
 		try {
 			return jo.toString(4);
