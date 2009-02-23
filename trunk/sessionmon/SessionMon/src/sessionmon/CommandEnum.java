@@ -13,10 +13,8 @@ public class CommandEnum {
 	
 	/** unmodifiable types **/
 	public static final List VALUES = Collections.unmodifiableList(_VALUES);
-	public static final CommandEnum REPORT = new CommandEnum(1, "report");
-	public static final CommandEnum ADD_SESSION_PARAMETERS = new CommandEnum(2, "addSessionParams");
-	public static final CommandEnum REMOVE_SESSION_PARAMETERS = new CommandEnum(3, "removeSessionParams");
-	public static final CommandEnum INVALIDATE_SESSION = new CommandEnum(4, "invalidateSession");
+	public static final CommandEnum DUMP = new CommandEnum(1, "dump");
+	public static final CommandEnum TEST = new CommandEnum(2, "test");
 	
 	private CommandEnum(int id, String name) {
 		this.commandName = name;

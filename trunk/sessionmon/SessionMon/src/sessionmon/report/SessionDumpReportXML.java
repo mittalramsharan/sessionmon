@@ -3,11 +3,9 @@ package sessionmon.report;
 import org.json.JSONObject;
 import org.json.XML;
 
-import sessionmon.SessionInfo;
-
-public class XMLReport extends Report {
+public class SessionDumpReportXML extends Report {
 	
-	public String generate(SessionInfo info) {
+	public String generate(Object info) {
 		JSONObject jo = new JSONObject(info);
 		try {
 			return XML.toString(jo, "session");
