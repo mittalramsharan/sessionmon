@@ -30,6 +30,9 @@ public class CommandEnum {
 	}
 	
 	public static CommandEnum valueOf(String name) throws IllegalArgumentException {
+		if(name == null)
+			throw new IllegalArgumentException("Unknown command");
+		
 		Iterator iter = VALUES.iterator();
 		while(iter.hasNext()) {
 			Object obj = iter.next();
