@@ -29,7 +29,7 @@ import java.util.Random;
  * @since 1.0
  * @version $Id: RandomStringUtils.java,v 1.27 2004/02/18 22:59:49 ggregory Exp $
  */
-public class RandomStringUtils {
+public class RandomString {
     /**
      * <p>Random object used by random method. This has to be not local
      * to the random method so as to not return the same value in the 
@@ -45,7 +45,7 @@ public class RandomStringUtils {
      * <p>This constructor is public to permit tools that require a JavaBean instance
      * to operate.</p>
      */
-    public RandomStringUtils() {
+    public RandomString() {
     }
 
     // Random
