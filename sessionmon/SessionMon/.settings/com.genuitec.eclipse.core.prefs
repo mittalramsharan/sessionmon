@@ -1,0 +1,4 @@
+#Mon Mar 16 23:52:45 EDT 2009
+eclipse.preferences.version=1
+validator.Checked=WebRoot/fragments/footer.jsp,src/sessionmon/web/fragments/footer.jsp,WebRoot/footer.jsp
+validator.Unchecked=

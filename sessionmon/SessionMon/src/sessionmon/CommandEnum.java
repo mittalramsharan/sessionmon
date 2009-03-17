@@ -15,6 +15,7 @@ public class CommandEnum {
 	public static final List VALUES = Collections.unmodifiableList(_VALUES);
 	public static final CommandEnum DUMP = new CommandEnum(1, "dump");
 	public static final CommandEnum TEST = new CommandEnum(2, "test");
+	public static final CommandEnum CONFIGURE = new CommandEnum(3, "configure");
 	
 	private CommandEnum(int id, String name) {
 		this.commandName = name;
