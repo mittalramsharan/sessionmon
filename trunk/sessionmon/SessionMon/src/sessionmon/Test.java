@@ -6,11 +6,11 @@ import java.util.Random;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import sessionmon.util.RandomStringUtils;
+import sessionmon.util.RandomString;
 
-public class SessionTest {
-	public SessionTest(HttpServletRequest request) {
-		
+public class Test {
+	public Test(HttpServletRequest request) {
+		addStringAttributes(3, request.getSession());
 	}
 	
 	public static void addStringAttributes(int numOfAttributes, HttpSession session) {
@@ -18,7 +18,7 @@ public class SessionTest {
 			String name = "sessionAttribute_" + i;
 			Random random = new Random();
 			int randomLength = random.nextInt(200);
-			String value = RandomStringUtils.randomAlphanumeric(randomLength);
+			String value = RandomString.randomAlphanumeric(randomLength);
 			
 			session.setAttribute(name, value);
 		}

@@ -52,24 +52,33 @@ public class SessionMonServlet extends HttpServlet {
 			throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
 		
+		//resolve command
 		String commandParam = request.getParameter(REQUEST_PARAMETER_COMMAND);
 		CommandEnum command = null;
 		try {
 			command = CommandEnum.valueOf(commandParam);
 		} catch(IllegalArgumentException e) {
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST);
-			return;
 		}
 		
-		Report report = ReportFactory.create(command, request.getParameter(REQUEST_PARAMETER_TYPE));
-		response.setContentType(report.getMIMEType());
-		if(command.equals(CommandEnum.DUMP)) {
-			SessionInfo sessionInfo = new SessionInfo(request);
-			out.print(report.generate(sessionInfo));
-		} else if(command.equals(CommandEnum.TEST)) {
-			SessionTest sessionTest = new SessionTest(request);
-			out.print(report.generate(sessionTest));
+		//controller
+		if(command != null) {
+			if(command.equals(CommandEnum.DUMP)) {
+				Report report = ReportFactory.create(command, request.getParameter(REQUEST_PARAMETER_TYPE));
+				response.setContentType(report.getMIMEType());
+				SessionInfo sessionInfo = new SessionInfo(request);
+				out.print(report.generate(sessionInfo));
+			} else if(command.equals(CommandEnum.TEST)) {
+				Report report = ReportFactory.create(command, request.getParameter(REQUEST_PARAMETER_TYPE));
+				response.setContentType(report.getMIMEType());
+				Test sessionTest = new Test(request);
+				out.print(report.generate(sessionTest));
+			} else if(command.equals(CommandEnum.CONFIGURE)) {
+			}
+		} else {
+			response.setContentType("text/html");
+			out.print(JSPRequestProcessor.process(request, response));
 		}
+		
 		out.flush();
 		out.close();
 	}
