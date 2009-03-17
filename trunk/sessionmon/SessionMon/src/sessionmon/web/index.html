@@ -5,21 +5,40 @@
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">
-  </head>
-  
-  <body>
-  	<h1>SessionMon</h1>
-  	<div class="menu">
-  		<ul>
-  			<li>Test</li>
-  			<li>Dump</li>
-  			<li>Configure</li>
-  		</ul>
-  	</div>
 
-  	<a href="/sessionmon/servlet?command=dump&type=json">JSON Report</a><br/>
-  	<a href="/sessionmon/servlet?command=dump&type=xml">XML Report</a><br/>
-  	<a href="/sessionmon/servlet?command=test&type=xml">Test</a><br/>
+	<link rel="stylesheet" media="all" type="text/css" href="/sessionmon/css/common.css" />
+
+	<script type="text/javascript" src="/sessionmon/js/prototype-1.6.0.3.js"></script>
+	<script type="text/javascript">
+	<!-- Begin
+
+	//  End -->
+	</script>
+  </head>
+
+  <body>
+    <div class="header">
+		<h1>SessionMon</h1>
+		<ul class="nav">
+			<li><a href="">Dump</a></li>
+			<li><a href="">Test</a></li>
+		</ul>
+	</div>
+
+	<div class="configuration">
+		<form>
+			<p><label>Server:</label>$server</p>
+			<p>
+			<input type="radio" name="type" value="html" checked>HTML
+			<input type="radio" name="type" value="xml">XML
+			<input type="radio" name="type" value="json">JSON
+			</p>
+		</form>
+	</div>
+
+	<div class="content">
+	$content
+	</div>
 
   </body>
 </html>

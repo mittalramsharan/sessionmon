@@ -1,8 +1,6 @@
 package sessionmon;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -11,41 +9,45 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class JSPRequestProcessor {
-	public static final String PAGE_TITLE = "PAGE_TITLE";
-	
-	private static final String PAGE_CONFIGURE = "configure";
-	private static final String PAGE_TEST = "test";
-	private static final String PAGE_DUMP = "dump";
+public class PageRequestProcessor {
+	private static final String PAGE_TEST = "test.html";
+	private static final String PAGE_DUMP = "dump.html";
 	
 	public static String process(HttpServletRequest request, HttpServletResponse response) 
 	throws IOException, ServletException {
+		String content = null;
+		String contextPath = request.getContextPath();
 		String path = request.getRequestURI();
 		
-		if(path.equals(PAGE_CONFIGURE)) {
-			prepareCommon(request, PAGE_CONFIGURE);
-		} else if(path.equals(PAGE_TEST)) {
-			prepareCommon(request, PAGE_CONFIGURE);
-		} else if(path.equals(PAGE_DUMP)) {
-			prepareCommon(request, PAGE_CONFIGURE);
+		String resourcePath = path.replaceAll(contextPath, "web");
+		if(path.indexOf("/js/") != -1) {
+			content = getContent(resourcePath);
 		} else {
-			return getWebContent(request.getParameter("file"));
+			if(path.indexOf(PAGE_TEST) != -1) {
+				
+			} else {
+				content = getContent("web/index.html");
+				content = evaluateContent(content, request);
+			}
 		}
-		return null;
+
+		return content;
 	}
 	
-	private static void prepareCommon(HttpServletRequest request, String page) {
-		request.setAttribute(PAGE_TITLE, "");
+	private static String evaluateContent(String c, HttpServletRequest request) {
+		c = c.replaceAll("[$]{1}contextPath", request.getContextPath());
+		
+		return c;
 	}
 	
-	private static String getWebContent(String cName) {
+	private static String getContent(String cName) {
 	    InputStream is = null;
 	    BufferedReader br = null;
 	    String line;
 	    StringBuffer content = new StringBuffer();
 
 	    try { 
-	      is = JSPRequestProcessor.class.getResourceAsStream(cName);
+	      is = PageRequestProcessor.class.getResourceAsStream(cName);
 	      br = new BufferedReader(new InputStreamReader(is));
 	      while (null != (line = br.readLine())) {
 	    	  content.append(line);
@@ -66,9 +68,5 @@ public class JSPRequestProcessor {
 	    }
 	    return content.toString();
 
-	}
-	
-	public static void main(String[] args) {
-		System.out.println(getWebContent("web/prototype-1.6.0.3.js"));
 	}
 }

@@ -9,8 +9,9 @@ import javax.servlet.http.HttpSession;
 import sessionmon.util.RandomString;
 
 public class Test {
+	
 	public Test(HttpServletRequest request) {
-		addStringAttributes(3, request.getSession());
+		
 	}
 	
 	public static void addStringAttributes(int numOfAttributes, HttpSession session) {

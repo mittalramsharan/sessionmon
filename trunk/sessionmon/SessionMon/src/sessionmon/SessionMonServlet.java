@@ -8,10 +8,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import sessionmon.report.Report;
 import sessionmon.report.ReportFactory;
 
 public class SessionMonServlet extends HttpServlet {
+	private static final Logger LOGGER = Logger.getLogger(SessionMonServlet.class);
 	
 	public static final String REQUEST_PARAMETER_COMMAND = "command";
 	public static final String REQUEST_PARAMETER_TYPE = "type";
@@ -76,7 +79,7 @@ public class SessionMonServlet extends HttpServlet {
 			}
 		} else {
 			response.setContentType("text/html");
-			out.print(JSPRequestProcessor.process(request, response));
+			out.print(PageRequestProcessor.process(request, response));
 		}
 		
 		out.flush();
