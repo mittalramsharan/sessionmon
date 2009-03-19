@@ -11,14 +11,14 @@ import sessionmon.util.RandomString;
 public class Test {
 	
 	public Test(HttpServletRequest request) {
-		
+		addStringAttributes(3, request.getSession());
 	}
 	
 	public static void addStringAttributes(int numOfAttributes, HttpSession session) {
 		for(int i=0; i<numOfAttributes; i++) {
 			String name = "sessionAttribute_" + i;
 			Random random = new Random();
-			int randomLength = random.nextInt(200);
+			int randomLength = random.nextInt(100);
 			String value = RandomString.randomAlphanumeric(randomLength);
 			
 			session.setAttribute(name, value);
