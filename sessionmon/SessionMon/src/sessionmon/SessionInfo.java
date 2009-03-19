@@ -46,8 +46,8 @@ public class SessionInfo {
 				attr.setObjectGraphSizeInBytes(p.getObjectGraphSizeInBytes());
 				attr.setObjectSerializedSizeInBytes(p.getObjectSerializedSizeInBytes());
 				
-				totalObjectGraphSizeInBytes += totalObjectGraphSizeInBytes;
-				totalObjectSerializedSizeInBytes += totalObjectSerializedSizeInBytes;
+				totalObjectGraphSizeInBytes += p.getObjectGraphSizeInBytes();
+				totalObjectSerializedSizeInBytes += p.getObjectSerializedSizeInBytes();
 				attributes.add(attr);
 			}
 		}
@@ -62,7 +62,9 @@ public class SessionInfo {
 		this.serverPort = request.getServerPort();
 		this.applicationURL = request.getContextPath();
 	}
-	
+	public int getTotalNumberOfAttributes() {
+		return attributes.size();
+	}
 	public Date getCreationTime() {
 		return creationTime;
 	}

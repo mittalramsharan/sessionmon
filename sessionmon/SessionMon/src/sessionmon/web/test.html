@@ -13,8 +13,8 @@
     <div class="header">
 		<h1>SessionMon</h1>
 		<ul class="nav">
-			<li><a href="$contextpath/index.html">&gt;&gt;Dump</a></li>
-			<li><a href="$contextpath/test.html">Test</a></li>
+			<li><a href="$contextpath/index.html">Dump</a></li>
+			<li><a href="$contextpath/test.html">&gt;&gt;Test</a></li>
 			<li><a href="$contextpath/monitor.html">Setup Monitor</a></li>
 		</ul>
 	</div>
@@ -28,14 +28,9 @@
 			<p><label>Format:</label><a href="$contextpath?command=dump&type=xml">XML</a>&nbsp;|&nbsp;<a href="$contextpath?command=dump&type=json">JSON</a></p>
 		</form>
 	</div>
-	
-	<hr />
-	
+
 	<div class="content">
-		<form action="$contextpath">
-			<input type="submit" value="Refresh"/>
-		</form>	
-		$content
+	$content
 	</div>
 
   </body>
