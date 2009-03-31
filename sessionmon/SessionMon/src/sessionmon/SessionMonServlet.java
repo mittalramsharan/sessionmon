@@ -3,6 +3,7 @@ package sessionmon;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,7 @@ import sessionmon.report.ReportFactory;
 public class SessionMonServlet extends HttpServlet {
 	private static final Logger LOGGER = Logger.getLogger(SessionMonServlet.class);
 	
+	public static final String CONTEXT_PARAMETER_CONFIGURATION = "sessionmon.config";
 	public static final String REQUEST_PARAMETER_COMMAND = "command";
 	public static final String REQUEST_PARAMETER_TYPE = "type";
 	
@@ -53,6 +55,14 @@ public class SessionMonServlet extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		Configuration config = (Configuration)request.getSession().getServletContext().getAttribute(SessionMonServlet.CONTEXT_PARAMETER_CONFIGURATION);
+		//send not found error if sessionmon servlet is not enabled
+		if(!config.isEnabled()) {
+			LOGGER.warn("SessionMon is disabled. Modify the web descriptor to change this setting.");
+			response.sendError(HttpServletResponse.SC_NOT_FOUND);
+			return;
+		}
+		
 		PrintWriter out = response.getWriter();
 		
 		//resolve command
@@ -61,6 +71,7 @@ public class SessionMonServlet extends HttpServlet {
 		try {
 			command = CommandEnum.valueOf(commandParam);
 		} catch(IllegalArgumentException e) {
+			LOGGER.warn("Received unkown command.");
 		}
 		
 		//controller
@@ -73,9 +84,8 @@ public class SessionMonServlet extends HttpServlet {
 			} else if(command.equals(CommandEnum.TEST)) {
 				Report report = ReportFactory.create(command, request.getParameter(REQUEST_PARAMETER_TYPE));
 				response.setContentType(report.getMIMEType());
-				Test sessionTest = new Test(request);
+				Test sessionTest = new Test();
 				out.print(report.generate(sessionTest));
-			} else if(command.equals(CommandEnum.CONFIGURE)) {
 			}
 		} else {
 			response.setContentType("text/html");
@@ -91,7 +101,30 @@ public class SessionMonServlet extends HttpServlet {
 	 *
 	 * @throws ServletException if an error occurs
 	 */
-	public void init() throws ServletException {}
+	public void init() throws ServletException {
+		ServletConfig sc = getServletConfig();
+		Configuration configuration = null;
+		
+		String servers = sc.getInitParameter("server_node_addresses");
+		if(servers != null) {
+			configuration = new Configuration(servers);
+		} else {
+			LOGGER.warn("server_node_addresses parameter is not specified");
+			configuration = new Configuration();
+		}
+		
+		String enabled = sc.getInitParameter("enabled");
+		if(enabled != null && enabled.equalsIgnoreCase("true")) {
+			configuration.setEnabled(true);
+		}
+		
+		String overridePath = sc.getInitParameter("override_path");
+		if(overridePath != null) {
+			configuration.setOverridePath(overridePath);
+		}
+		
+		sc.getServletContext().setAttribute(CONTEXT_PARAMETER_CONFIGURATION, configuration);
+	}
 
 	/**
 	 * Destruction of the servlet. <br>

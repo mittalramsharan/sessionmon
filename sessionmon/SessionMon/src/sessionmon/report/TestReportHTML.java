@@ -1,7 +1,7 @@
 package sessionmon.report;
 
 
-public class TestReportXML extends Report {
+public class TestReportHTML extends Report {
 
 	public String generate(Object info) {
 		// TODO Auto-generated method stub

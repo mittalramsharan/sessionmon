@@ -6,16 +6,18 @@
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">
 
-	<link rel="stylesheet" media="all" type="text/css" href="$contextpath/css/common.css" />
+	<style type="text/css">
+		$csscontent
+	</style>
   </head>
 
   <body>
     <div class="header">
 		<h1>SessionMon</h1>
 		<ul class="nav">
-			<li><a href="$contextpath/index.html">&gt;&gt;Dump</a></li>
-			<li><a href="$contextpath/test.html">Test</a></li>
-			<li><a href="$contextpath/monitor.html">Setup Monitor</a></li>
+			<li><a href="$requesturi/index.html?$requestquerystring">&gt;&gt;Dump</a></li>
+			<li><a href="$requesturi/test.html?$requestquerystring">Test</a></li>
+			<li><a href="$requesturi/monitor.html?$requestquerystring">Setup Monitor</a></li>
 		</ul>
 	</div>
 
@@ -25,17 +27,17 @@
 			<p><label>Context Path:</label>$contextpath</p>
 			<p><label>Session ID:</label>$sessionid</p>
 			<p><label>Current Time:</label>$timestamp</p>
-			<p><label>Format:</label><a href="$contextpath?command=dump&type=xml">XML</a>&nbsp;|&nbsp;<a href="$contextpath?command=dump&type=json">JSON</a></p>
+			<p><label>Format:</label><a href="$requesturi?$requestquerystring&command=dump&type=xml">XML</a>&nbsp;|&nbsp;<a href="$requesturi?$requestquerystring&command=dump&type=json">JSON</a></p>
 		</form>
 	</div>
 	
 	<hr />
 	
 	<div class="content">
-		<form action="$contextpath">
+		<form action="$requesturi/index.html?$requestquerystring">
 			<input type="submit" value="Refresh"/>
 		</form>	
-		$content
+		$maincontent
 	</div>
 
   </body>

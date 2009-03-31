@@ -3,7 +3,7 @@
 version="1.0">
 <xsl:template match="/">
 
-<table summary="Session Information">
+<table id="table-highlight" summary="Session Information">
 <thead>
 <tr>
 <th scope="col">Total Number of Attributes</th>
@@ -39,9 +39,9 @@ version="1.0">
 		<tbody>
 			<xsl:for-each select="session/attributes">
 			<tr>
-			<td><xsl:value-of select="name"/><br/>(<xsl:value-of select="objectType"/>)</td>
-			<td><xsl:value-of select="toStringValue"/></td>
-			<td width="200px">Object Graph Size = <xsl:value-of select="objectGraphSizeInBytes"/> bytes<br/>Serialized Size = <xsl:value-of select="objectSerializedSizeInBytes"/> bytes</td>
+			<td width="25%"><xsl:value-of select="name"/><br/>(<xsl:value-of select="objectType"/>)</td>
+			<td width="50%"><xsl:value-of select="toStringValue"/></td>
+			<td width="25%">Object Graph Size = <xsl:value-of select="objectGraphSizeInBytes"/> bytes<br/>Serialized Size = <xsl:value-of select="objectSerializedSizeInBytes"/> bytes</td>
 			</tr>
 			</xsl:for-each>
 		</tbody>

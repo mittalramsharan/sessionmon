@@ -81,11 +81,12 @@ table th{
 }
 table td{
 	background:#e8edff;
-	border-top:1px solid #fff;
 	color:#000000;
 	padding:8px;
-	border-left: 1px solid #b9c9fe;
-	border-right: 1px solid #b9c9fe;
+	border-top:1px solid #b9c9fe;
+	border-bottom:1px solid #b9c9fe;
+	border-left:1px solid #b9c9fe;
+	border-right:1px solid #b9c9fe;
 }
 #table-highlight tbody tr:hover td{
 	background:#d0dafd;
