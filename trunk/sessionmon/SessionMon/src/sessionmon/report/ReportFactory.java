@@ -5,6 +5,7 @@ import sessionmon.CommandEnum;
 public class ReportFactory {
 	public static final String REPORT_TYPE_XML = "xml";
 	public static final String REPORT_TYPE_JSON = "json";
+	public static final String REPORT_TYPE_HTML = "html";
 	
 	public static Report create(CommandEnum command, String reportType) {
 		if(command.equals(CommandEnum.DUMP)) {
@@ -12,12 +13,12 @@ public class ReportFactory {
 				return new SessionDumpReportXML();
 			} else if(reportType.equals(REPORT_TYPE_JSON)) {
 				return new SessionDumpReportJSON();
+			} else if(reportType.equals(REPORT_TYPE_HTML)) {
+				return new SessionDumpReportHTML();
 			}
 		} else if(command.equals(CommandEnum.TEST)) {
-			if(reportType.equals(REPORT_TYPE_XML)) {
-				return new TestReportXML();
-			} else if(reportType.equals(REPORT_TYPE_JSON)) {
-				return new TestReportJSON();
+			if(reportType.equals(REPORT_TYPE_HTML)) {
+				return new TestReportHTML();
 			}
 		}
 		return null;

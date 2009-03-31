@@ -6,16 +6,18 @@
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">
 
-	<link rel="stylesheet" media="all" type="text/css" href="$contextpath/css/common.css" />
+	<style type="text/css">
+		$csscontent
+	</style>
   </head>
 
   <body>
     <div class="header">
 		<h1>SessionMon</h1>
 		<ul class="nav">
-			<li><a href="$contextpath/index.html">Dump</a></li>
-			<li><a href="$contextpath/test.html">&gt;&gt;Test</a></li>
-			<li><a href="$contextpath/monitor.html">Setup Monitor</a></li>
+			<li><a href="">Dump</a></li>
+			<li><a href="">&gt;&gt;Test</a></li>
+			<li><a href="">Setup Monitor</a></li>
 		</ul>
 	</div>
 
@@ -24,13 +26,84 @@
 			<p><label>Server:</label>$server</p>
 			<p><label>Context Path:</label>$contextpath</p>
 			<p><label>Session ID:</label>$sessionid</p>
-			<p><label>Current Time:</label>$timestamp</p>
-			<p><label>Format:</label><a href="$contextpath?command=dump&type=xml">XML</a>&nbsp;|&nbsp;<a href="$contextpath?command=dump&type=json">JSON</a></p>
+			<p><label>Node(s) in Cluster:</label>$nodes</p>
 		</form>
 	</div>
 
+	<hr />
+
 	<div class="content">
-	$content
+		<form action="$requesturi/test.html?smdo=replication&$requestquerystring">
+			<input type="submit" value="Test Replication"/>
+		</form>
+		<form action="$requesturi/test.html?smdo=invalidate&$requestquerystring">
+			<input type="submit" value="Invalidate Session"/>
+		</form>		
+		
+		<table summary="Session Information">
+		<thead>
+		<tr>
+		<th scope="col">Node</th>
+		<th scope="col">Total Number of Attributes</th>
+		<th scope="col">Total Object Graph Size</th>
+		<th scope="col">Total Serialized Size</th>
+		<th scope="col">Creation Time</th>
+		<th scope="col">Last Accessed Time</th>
+		<th scope="col">Max Inactive Interval</th>
+		<th scope="col">Is New</th>
+		</tr>
+		</thead>
+		<tbody>
+			<tr>
+			<td>localhost:8080</td>
+			<td>12</td>
+			<td>12123 bytes</td>
+			<td>1223 bytes</td>
+			<td>1223 bytes</td>
+			<td>1223 bytes</td>
+			<td>1223 seconds</td>
+			<td>False</td>
+			</tr>
+			<tr>
+			<td>localhost:8081</td>
+			<td>12</td>
+			<td>12123 bytes</td>
+			<td>1223 bytes</td>
+			<td>1223 bytes</td>
+			<td>1223 bytes</td>
+			<td>1223 seconds</td>
+			<td>False</td>
+			</tr>
+		</tbody>
+		</table>
+		<br/>
+		<table id="table-highlight" summary="Session Attributes">
+				<thead>
+				<tr>
+				<th colspan="4">Unmatched Attributes</th>
+				</tr>
+				</thead>
+				<tbody>
+					<tr>
+					<td width="15%">localhost:8080</td>
+					<td width="20%"><font color="red">customer<br/>(java.lang.String)</font></td>
+					<td width="45%"><font color="red">State of California</font></td>
+					<td width="20%"><font color="red">Object Graph Size: 23432 bytes<br/>Serialized Size: 23432 bytes</font></td>
+					</tr>
+					<tr>
+					<td width="15%">localhost:8080</td>
+					<td width="20%">applicationName<br/>(java.lang.String)</td>
+					<td width="45%"><font color="red">State of California Car Tax</font></td>
+					<td width="20%">Object Graph Size: 23432 bytes<br/>Serialized Size: 23432 bytes</td>
+					</tr>
+					<tr>
+					<td width="15%">localhost:8081</td>
+					<td width="20%">applicationName<br/>(java.lang.String)</td>
+					<td width="45%"><font color="red">State of Ohio Income Tax</font></td>
+					<td width="20%">Object Graph Size: 23432 bytes<br/>Serialized Size: 23432 bytes</td>
+					</tr>
+				</tbody>
+		</table>
 	</div>
 
   </body>
