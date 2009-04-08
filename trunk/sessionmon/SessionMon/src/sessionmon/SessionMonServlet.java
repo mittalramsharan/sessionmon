@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 
 import sessionmon.report.Report;
 import sessionmon.report.ReportFactory;
+import sessionmon.test.Test;
 
 public class SessionMonServlet extends HttpServlet {
 	private static final Logger LOGGER = Logger.getLogger(SessionMonServlet.class);
@@ -84,7 +85,7 @@ public class SessionMonServlet extends HttpServlet {
 			} else if(command.equals(CommandEnum.TEST)) {
 				Report report = ReportFactory.create(command, request.getParameter(REQUEST_PARAMETER_TYPE));
 				response.setContentType(report.getMIMEType());
-				Test sessionTest = new Test();
+				Test sessionTest = new Test(request);
 				out.print(report.generate(sessionTest));
 			}
 		} else {
