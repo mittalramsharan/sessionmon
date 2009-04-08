@@ -25,9 +25,9 @@ public class Configuration {
 	}
 	
 	public void addServer(String serverAddress) {
-		if(servers.contains(serverAddress)) {
+		//if(!servers.contains(serverAddress)) {
 			servers.add(serverAddress);
-		}
+		//}
 	}
 	
 	public void removeServer(String serverAddress) {

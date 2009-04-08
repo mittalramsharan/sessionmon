@@ -15,7 +15,7 @@
     <div class="header">
 		<h1>SessionMon</h1>
 		<ul class="nav">
-			<li><a href="$requesturi/index.html?$requestquerystring">&gt;&gt;Dump</a></li>
+			<li><a href="$requesturi?$requestquerystring">&gt;&gt;Dump</a></li>
 			<li><a href="$requesturi/test.html?$requestquerystring">Test</a></li>
 			<li><a href="$requesturi/monitor.html?$requestquerystring">Setup Monitor</a></li>
 		</ul>
@@ -34,7 +34,7 @@
 	<hr />
 	
 	<div class="content">
-		<form action="$requesturi/index.html?$requestquerystring">
+		<form action="$requesturi?$requestquerystring">
 			<input type="submit" value="Refresh"/>
 		</form>	
 		$maincontent

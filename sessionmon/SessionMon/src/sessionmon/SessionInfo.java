@@ -9,6 +9,9 @@ import java.util.Enumeration;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import sessionmon.util.JavaObjectProfiler;
 
 public class SessionInfo {
@@ -26,7 +29,35 @@ public class SessionInfo {
 	private int maxInactiveIntervalInSeconds = 0;
 	private boolean isNew = false;
 	
-	public SessionInfo() {}
+	public SessionInfo(JSONObject j) {
+		try {
+			serverName = j.getString("serverName");
+			serverPort = j.getInt("serverPort");
+			applicationURL = j.getString("applicationURL");
+			id = j.getString("id");
+			totalObjectGraphSizeInBytes = j.getInt("totalObjectGraphSizeInBytes");
+			totalObjectSerializedSizeInBytes = j.getInt("totalObjectSerializedSizeInBytes");
+			creationTime = new Date(j.getString("creationTime"));
+			lastAccessedTime = new Date(j.getString("lastAccessedTime"));
+			maxInactiveIntervalInSeconds = j.getInt("maxInactiveIntervalInSeconds");
+			isNew = j.getBoolean("new");
+			
+			attributes = new ArrayList();
+			JSONArray array = j.getJSONArray("attributes");
+			for(int i=0; i<array.length(); i++) {
+				JSONObject jatt = (JSONObject)array.get(i);
+				SessionAttribute att = new SessionAttribute();
+				att.setName(jatt.getString("name"));
+				att.setObjectGraphSizeInBytes(jatt.getInt("objectGraphSizeInBytes"));
+				att.setObjectSerializedSizeInBytes(jatt.getInt("objectSerializedSizeInBytes"));
+				att.setObjectType(jatt.getString("objectType"));
+				att.setToStringValue(jatt.getString("toStringValue"));
+				attributes.add(att);
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public SessionInfo(HttpServletRequest request) throws IOException {
 		HttpSession session = request.getSession();
