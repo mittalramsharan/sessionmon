@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import org.json.JSONObject;
 
 import sessionmon.Configuration;
+import sessionmon.PageRequestProcessor;
 import sessionmon.SessionAttribute;
 import sessionmon.SessionInfo;
 import sessionmon.SessionMonServlet;
@@ -42,7 +43,7 @@ public class Test {
 		Iterator iterator = config.getServers().iterator();
 		while(iterator.hasNext()) {
 			String server = (String)iterator.next();
-			String url = server + sessionDumpURI + "?command=dump&type=json";		
+			String url = server + sessionDumpURI + "?command=dump&type=json&" + PageRequestProcessor.getRequestQueryString(request);
 			GetMethod httpget = new GetMethod(url);
 			httpget.addRequestHeader("Cookie", request.getHeader("Cookie"));
 			

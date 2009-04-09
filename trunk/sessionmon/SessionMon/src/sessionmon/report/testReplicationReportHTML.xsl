@@ -42,6 +42,7 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 		</thead>
 		<tbody>
 			<xsl:for-each select="replicationTest/session/replicationFailedAttributes">
+			<xsl:sort select="name"/>
 			<tr>
 			<td width="15%"><xsl:value-of select="../serverName"/>:<xsl:value-of select="../serverPort"/></td>
 			<td width="15%"><xsl:value-of select="name"/><br/>(<xsl:value-of select="objectType"/>)</td>
