@@ -77,16 +77,23 @@ public class SessionMonServlet extends HttpServlet {
 		
 		//controller
 		if(command != null) {
-			if(command.equals(CommandEnum.DUMP)) {
+			if(command.equals(CommandEnum.INVALIDATE_SESSION)) {
+				request.getSession().invalidate();
+			} else {
 				Report report = ReportFactory.create(command, request.getParameter(REQUEST_PARAMETER_TYPE));
-				response.setContentType(report.getMIMEType());
-				SessionInfo sessionInfo = new SessionInfo(request);
-				out.print(report.generate(sessionInfo));
-			} else if(command.equals(CommandEnum.TEST)) {
-				Report report = ReportFactory.create(command, request.getParameter(REQUEST_PARAMETER_TYPE));
-				response.setContentType(report.getMIMEType());
-				Test sessionTest = new Test(request);
-				out.print(report.generate(sessionTest));
+				if(report == null) {
+					LOGGER.error("[sessionmon]ReportFactory could not understand your request");
+					out.print("Error, ReportFactory could not understand your request.");
+				} else {
+					response.setContentType(report.getMIMEType());
+					if(command.equals(CommandEnum.DUMP)) {
+						SessionInfo sessionInfo = new SessionInfo(request);
+						out.print(report.generate(sessionInfo));
+					} else if(command.equals(CommandEnum.TEST_REPLICATION)) {
+						Test sessionTest = new Test(request);
+						out.print(report.generate(sessionTest));
+					}
+				}
 			}
 		} else {
 			response.setContentType("text/html");

@@ -21,7 +21,7 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <tbody>
 	<xsl:for-each select="replicationTest/session">
 	<tr>
-	<td><xsl:value-of select="serverName"/></td>
+	<td><xsl:value-of select="serverName"/>:<xsl:value-of select="serverPort"/></td>
 	<td><xsl:value-of select="totalNumberOfAttributes"/></td>
 	<td><xsl:value-of select="totalObjectGraphSizeInBytes"/> bytes</td>
 	<td><xsl:value-of select="totalObjectSerializedSizeInBytes"/> bytes</td>
@@ -37,15 +37,16 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <table id="table-highlight" summary="Session Attributes">
 		<thead>
 		<tr>
-		<th colspan="3">Attributes</th>
+		<th colspan="4">Attributes with Replication Error or Delay</th>
 		</tr>
 		</thead>
 		<tbody>
-			<xsl:for-each select="replicationTest/session/attributes">
+			<xsl:for-each select="replicationTest/session/replicationFailedAttributes">
 			<tr>
-			<td width="25%"><xsl:value-of select="name"/><br/>(<xsl:value-of select="objectType"/>)</td>
-			<td width="50%"><xsl:value-of select="toStringValue"/></td>
-			<td width="25%">Object Graph Size = <xsl:value-of select="objectGraphSizeInBytes"/> bytes<br/>Serialized Size = <xsl:value-of select="objectSerializedSizeInBytes"/> bytes</td>
+			<td width="15%"><xsl:value-of select="../serverName"/>:<xsl:value-of select="../serverPort"/></td>
+			<td width="15%"><xsl:value-of select="name"/><br/>(<xsl:value-of select="objectType"/>)</td>
+			<td width="55%"><xsl:value-of select="toStringValue"/></td>
+			<td width="15%"><xsl:value-of select="objectGraphSizeInBytes"/> bytes (Object Graph)<br/><xsl:value-of select="objectSerializedSizeInBytes"/> bytes (Serialized)</td>
 			</tr>
 			</xsl:for-each>
 		</tbody>

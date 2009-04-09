@@ -1,0 +1,15 @@
+	<div class="configuration">
+		<form>
+			<p><label>Server:</label>$server</p>
+			<p><label>Context Path:</label>$contextpath</p>
+			<p><label>Session ID:</label>$sessionid</p>
+			<p><label>Current Time:</label>$timestamp</p>
+			<p><label>Format:</label><a href="$requesturi?$requestquerystring&command=dump&type=xml">XML</a>&nbsp;|&nbsp;<a href="$requesturi?$requestquerystring&command=dump&type=json">JSON</a></p>
+		</form>
+	</div>
+	
+	<hr />
+	
+	<div class="content">
+		$maincontent
+	</div>

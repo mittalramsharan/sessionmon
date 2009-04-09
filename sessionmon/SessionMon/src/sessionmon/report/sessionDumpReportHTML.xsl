@@ -41,7 +41,7 @@ version="1.0">
 			<tr>
 			<td width="25%"><xsl:value-of select="name"/><br/>(<xsl:value-of select="objectType"/>)</td>
 			<td width="50%"><xsl:value-of select="toStringValue"/></td>
-			<td width="25%">Object Graph Size = <xsl:value-of select="objectGraphSizeInBytes"/> bytes<br/>Serialized Size = <xsl:value-of select="objectSerializedSizeInBytes"/> bytes</td>
+			<td width="25%"><xsl:value-of select="objectGraphSizeInBytes"/> bytes (Object Graph)<br/><xsl:value-of select="objectSerializedSizeInBytes"/> bytes (Serialized)</td>
 			</tr>
 			</xsl:for-each>
 		</tbody>
