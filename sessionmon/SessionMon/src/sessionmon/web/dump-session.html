@@ -4,7 +4,7 @@
 			<p><label>Context Path:</label>$contextpath</p>
 			<p><label>Session ID:</label>$sessionid</p>
 			<p><label>Current Time:</label>$timestamp</p>
-			<p><label>Format:</label><a href="$requesturi?$requestquerystring&command=dump&type=xml">XML</a>&nbsp;|&nbsp;<a href="$requesturi?$requestquerystring&command=dump&type=json">JSON</a></p>
+			<p><label>Format:</label><a href="$requesturi?command=dump&type=xml$appendrequestquerystring">XML</a>&nbsp;|&nbsp;<a href="$requesturi?command=dump&type=json&$appendrequestquerystring">JSON</a></p>
 		</form>
 	</div>
 	

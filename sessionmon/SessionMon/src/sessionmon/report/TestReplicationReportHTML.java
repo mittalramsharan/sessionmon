@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import org.json.XML;
 
 import sessionmon.Configuration;
+import sessionmon.PageRequestProcessor;
 import sessionmon.SessionInfo;
 import sessionmon.SessionMonServlet;
 import sessionmon.test.OnlyOneNodeException;
@@ -28,7 +29,7 @@ public class TestReplicationReportHTML extends Report {
 		
 		StringBuffer xml = null;
 		try {
-			Iterator sessionFromAllNodes = test.testReplication(getRequestURI(request)).iterator();
+			Iterator sessionFromAllNodes = test.testReplication(PageRequestProcessor.getRequestURI(request, true)).iterator();
 			
 			xml = new StringBuffer("<replicationTest>");
 			while(sessionFromAllNodes.hasNext()) {

@@ -38,6 +38,7 @@ version="1.0">
 		</thead>
 		<tbody>
 			<xsl:for-each select="session/attributes">
+			<xsl:sort select="name"/>
 			<tr>
 			<td width="25%"><xsl:value-of select="name"/><br/>(<xsl:value-of select="objectType"/>)</td>
 			<td width="50%"><xsl:value-of select="toStringValue"/></td>
