@@ -1,6 +1,7 @@
 package sessionmon;
 
 public class SessionAttribute {
+	private String server = null;
 	private String name = null;
 	private String objectType = null;
 	private String toStringValue = null;
@@ -36,6 +37,12 @@ public class SessionAttribute {
 	}
 	public void setToStringValue(String toStringValue) {
 		this.toStringValue = toStringValue;
+	}
+	public String getServer() {
+		return server;
+	}
+	public void setServer(String server) {
+		this.server = server;
 	}
 
 }

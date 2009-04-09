@@ -21,7 +21,7 @@ h1{
 /* start navigation */
 .nav{
 	margin: 0;
-	padding: 0 0 0 220px;
+	padding: 0 0 0 240px;
 	list-style: none;
 	height: 30px;
 	line-height: 30px;
@@ -32,7 +32,7 @@ h1{
 	display: inline;
 	font-weight: bold;
 	font-size: 13px;
-	width: 145px;
+	width: 165px;
 	float: left;
 	border: 1px solid #c7c8ca;
 }
@@ -40,7 +40,7 @@ h1{
 	color: #000000;
 	float: left;
 	padding-left: 18px;
-	width: 127px;
+	width: 147px;
 }
 .nav li a:hover{
 	background-position: 0 100%;

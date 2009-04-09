@@ -15,10 +15,6 @@
 			<param-name>server_node_addresses</param-name>
 			<param-value>http://localhost:8081,http://localhost:8081,http://localhost:8081</param-value>
 		</init-param>
-		<init-param>
-			<param-name>replication_delay_in_milliseconds</param-name>
-			<param-value>0</param-value>
-		</init-param>
 		<!-- init-param>
 			<param-name>override_path</param-name>
 			<param-value>/foo/blah</param-value>

@@ -16,9 +16,9 @@ public class ReportFactory {
 			} else if(reportType.equals(REPORT_TYPE_HTML)) {
 				return new SessionDumpReportHTML();
 			}
-		} else if(command.equals(CommandEnum.TEST)) {
+		} else if(command.equals(CommandEnum.TEST_REPLICATION)) {
 			if(reportType.equals(REPORT_TYPE_HTML)) {
-				return new TestReportHTML();
+				return new TestReplicationReportHTML();
 			}
 		}
 		return null;

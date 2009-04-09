@@ -22,12 +22,15 @@ public class SessionInfo {
 	
 	private String id = null;
 	private Collection attributes = null;
+	private Collection replicationFailedAttributes = new ArrayList(0);
 	private int totalObjectGraphSizeInBytes = 0;
 	private int totalObjectSerializedSizeInBytes = 0;
 	private Date creationTime = null;
 	private Date lastAccessedTime = null;
 	private int maxInactiveIntervalInSeconds = 0;
 	private boolean isNew = false;
+	
+	public SessionInfo(){}
 	
 	public SessionInfo(JSONObject j) {
 		try {
@@ -130,5 +133,14 @@ public class SessionInfo {
 
 	public int getTotalObjectSerializedSizeInBytes() {
 		return totalObjectSerializedSizeInBytes;
+	}
+
+	public Collection getReplicationFailedAttributes() {
+		return replicationFailedAttributes;
+	}
+
+	public void setReplicationFailedAttributes(
+			Collection replicationFailedAttributes) {
+		this.replicationFailedAttributes = replicationFailedAttributes;
 	}
 }

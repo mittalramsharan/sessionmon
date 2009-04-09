@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import org.json.JSONObject;
 
 import sessionmon.Configuration;
+import sessionmon.SessionAttribute;
 import sessionmon.SessionInfo;
 import sessionmon.SessionMonServlet;
 import sessionmon.util.RandomString;
@@ -36,6 +37,7 @@ public class Test {
 			throw new OnlyOneNodeException();
 		
 		ArrayList sessionFromAllNodes = new ArrayList(numOfNodes);
+		ArrayList attributesFromAllNodes = new ArrayList();
 		HttpClient httpclient = new HttpClient();
 		Iterator iterator = config.getServers().iterator();
 		while(iterator.hasNext()) {
@@ -51,14 +53,41 @@ public class Test {
 			    }
 
 				String output = httpget.getResponseBodyAsString();
-				//System.out.println(output);
 				JSONObject json = new JSONObject(output);
 				SessionInfo sessionInfo = new SessionInfo(json);
 				sessionFromAllNodes.add(sessionInfo);
+				attributesFromAllNodes.addAll(sessionInfo.getAttributes());
+			} catch(Exception e) {
+				sessionFromAllNodes.add(new SessionInfo());
+				LOGGER.error("Could not get session info from " + server, e);
 			} finally {
 				httpget.releaseConnection();
 			}
 		}
+		
+		//analyze - remove properly replicated attributes
+		ArrayList replicatoinFailedAtt = new ArrayList();
+		for(int i=0; i<attributesFromAllNodes.size(); i++) {
+			SessionAttribute sa = (SessionAttribute)attributesFromAllNodes.get(i);
+			boolean foundMatch = false;
+			for(int j=0; j<attributesFromAllNodes.size(); j++) {
+				if(j != i) {
+					SessionAttribute sa2 = (SessionAttribute)attributesFromAllNodes.get(j);
+					if(sa2.getName().equals(sa.getName())) {
+						if(sa2.getObjectType().equals(sa.getObjectType()) &&
+								sa2.getObjectGraphSizeInBytes() == sa.getObjectGraphSizeInBytes() &&
+								sa2.getObjectSerializedSizeInBytes() == sa.getObjectSerializedSizeInBytes()) {
+							foundMatch = true;
+						}
+						break;
+					}
+				}
+			}
+			if(!foundMatch)
+				replicatoinFailedAtt.add(sa);
+		}
+		replicatoinFailedAtt.trimToSize();
+		((SessionInfo)sessionFromAllNodes.get(0)).setReplicationFailedAttributes(replicatoinFailedAtt);
 		
 		return sessionFromAllNodes;
 	}
