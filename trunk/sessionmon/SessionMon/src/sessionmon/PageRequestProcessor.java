@@ -55,7 +55,7 @@ public class PageRequestProcessor {
 			c = c.replaceAll("[$]{1}requestquerystring", "");
 		
 		if(page.equals(PAGE_DUMP_SESSION)) {
-			c = c.replace("Dump Session", "&gt;&gt;Dump Session");
+			c = c.replaceFirst("Dump Session", "&gt;&gt;Dump Session");
 			c = c.replaceAll("[$]{1}title", "Dump Session");
 			c = c.replaceAll("[$]{1}contextpath", request.getContextPath());
 			c = c.replaceAll("[$]{1}server", request.getServerName() + ":" + request.getServerPort());
@@ -65,7 +65,7 @@ public class PageRequestProcessor {
 			c = c.replaceFirst("[$]{1}maincontent", getDumpSessionHTMLContent(request));	
 			c = c.replaceFirst("[$]{1}csscontent", File.readFileAsString(CSS_COMMON));
 		} else if(page.equals(PAGE_TEST_REPLICATION)) {
-			c = c.replace("Test Replication", "&gt;&gt;Test Replication");
+			c = c.replaceFirst("Test Replication", "&gt;&gt;Test Replication");
 			c = c.replaceAll("[$]{1}title", "Test Replication");
 			c = c.replaceAll("[$]{1}contextpath", request.getContextPath());
 			c = c.replaceAll("[$]{1}server", request.getServerName() + ":" + request.getServerPort());
@@ -75,7 +75,7 @@ public class PageRequestProcessor {
 			c = c.replaceFirst("[$]{1}maincontent", getTestReplicationHTMLContent(request));
 			c = c.replaceFirst("[$]{1}csscontent", File.readFileAsString(CSS_COMMON));
 		} else if(page.equals(PAGE_INVALIDATE_SESSION)) {
-			c = c.replace("Invalidate Session", "&gt;&gt;Invalidate Session");
+			c = c.replaceFirst("Invalidate Session", "&gt;&gt;Invalidate Session");
 			c = c.replaceAll("[$]{1}title", "Invalidate Session");
 			c = c.replaceAll("[$]{1}contextpath", request.getContextPath());
 			c = c.replaceAll("[$]{1}server", request.getServerName() + ":" + request.getServerPort());
@@ -84,7 +84,7 @@ public class PageRequestProcessor {
 			c = c.replaceFirst("[$]{1}maincontent", getInvalidateSessionHTMLContent(request));
 			c = c.replaceFirst("[$]{1}csscontent", File.readFileAsString(CSS_COMMON));
 		} else if(page.equals(PAGE_MONITOR)) {
-			c = c.replace("Setup Monitor", "&gt;&gt;Setup Monitor");
+			c = c.replaceFirst("Setup Monitor", "&gt;&gt;Setup Monitor");
 			c = c.replaceAll("[$]{1}title", "Setup Monitor");
 			c = c.replaceFirst("[$]{1}maincontent", "Coming soon!");
 			c = c.replaceFirst("[$]{1}csscontent", File.readFileAsString(CSS_COMMON));
