@@ -1,6 +1,7 @@
 package sessionmon.test;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Random;
@@ -28,10 +29,10 @@ public class Test {
 	
 	public Test(HttpServletRequest request) {
 		this.request = request;
-		addStringAttributes(3);
+		//addStringAttributes(3);
 	}
 	
-	public ArrayList testReplication(String sessionDumpURI) throws Exception {
+	public Collection testReplication(String sessionDumpURI) throws OnlyOneNodeException {
 		Configuration config = (Configuration)request.getSession().getServletContext().getAttribute(SessionMonServlet.CONTEXT_PARAMETER_CONFIGURATION);
 		int numOfNodes = config.getServers().size();
 		if(numOfNodes < 2)
@@ -41,16 +42,18 @@ public class Test {
 		ArrayList attributesFromAllNodes = new ArrayList();
 		HttpClient httpclient = new HttpClient();
 		Iterator iterator = config.getServers().iterator();
-		while(iterator.hasNext()) {
-			String server = (String)iterator.next();
-			String url = server + sessionDumpURI + "?command=dump&type=json&" + PageRequestProcessor.getRequestQueryString(request);
-			GetMethod httpget = new GetMethod(url);
-			httpget.addRequestHeader("Cookie", request.getHeader("Cookie"));
-			
+		String server = null;
+		GetMethod httpget = null;
+		while(iterator.hasNext()) {	
 			try {
+				server = (String)iterator.next();
+				String url = server + sessionDumpURI + "?command=dump&type=json&" + PageRequestProcessor.getRequestQueryString(request);
+				httpget = new GetMethod(url);
+				httpget.addRequestHeader("Cookie", request.getHeader("Cookie"));
+				
 				int statusCode = httpclient.executeMethod(httpget);
 			    if(statusCode != HttpStatus.SC_OK) {
-			        LOGGER.error("Method failed: " + httpget.getStatusLine());
+			        LOGGER.error("[sessionmon]testReplication: Method failed: " + httpget.getStatusLine());
 			    }
 
 				String output = httpget.getResponseBodyAsString();
@@ -59,33 +62,43 @@ public class Test {
 				sessionFromAllNodes.add(sessionInfo);
 				attributesFromAllNodes.addAll(sessionInfo.getAttributes());
 			} catch(Exception e) {
-				sessionFromAllNodes.add(new SessionInfo());
-				LOGGER.error("Could not get session info from " + server, e);
+				SessionInfo si = new SessionInfo(server, "Error: Could not get session information from " + server + " due to " + e.getMessage());
+				sessionFromAllNodes.add(si);
+				
+				LOGGER.error("[sessionmon]testReplication: Could not get session info from " + server, e);
 			} finally {
-				httpget.releaseConnection();
+				try {
+					httpget.releaseConnection();
+				} catch(Exception e){}
 			}
 		}
 		
 		//analyze - remove properly replicated attributes
+		attributesFromAllNodes.trimToSize();
 		ArrayList replicatoinFailedAtt = new ArrayList();
 		for(int i=0; i<attributesFromAllNodes.size(); i++) {
-			SessionAttribute sa = (SessionAttribute)attributesFromAllNodes.get(i);
-			boolean foundMatch = false;
-			for(int j=0; j<attributesFromAllNodes.size(); j++) {
-				if(j != i) {
-					SessionAttribute sa2 = (SessionAttribute)attributesFromAllNodes.get(j);
-					if(sa2.getName().equals(sa.getName())) {
-						if(sa2.getObjectType().equals(sa.getObjectType()) &&
-								sa2.getObjectGraphSizeInBytes() == sa.getObjectGraphSizeInBytes() &&
-								sa2.getObjectSerializedSizeInBytes() == sa.getObjectSerializedSizeInBytes()) {
-							foundMatch = true;
+			try {
+				SessionAttribute sa = (SessionAttribute)attributesFromAllNodes.get(i);
+				boolean foundMatch = false;
+				for(int j=0; j<attributesFromAllNodes.size(); j++) {
+					if(j != i) {
+						SessionAttribute sa2 = (SessionAttribute)attributesFromAllNodes.get(j);
+						if(sa2.getName().equals(sa.getName())) {
+							if(sa2.getObjectType().equals(sa.getObjectType()) &&
+									sa2.getToStringValue().equals(sa.getToStringValue()) &&
+									sa2.getObjectGraphSizeInBytes() == sa.getObjectGraphSizeInBytes() &&
+									sa2.getObjectSerializedSizeInBytes() == sa.getObjectSerializedSizeInBytes()) {
+								foundMatch = true;
+							}
+							break;
 						}
-						break;
 					}
 				}
+				if(!foundMatch)
+					replicatoinFailedAtt.add(sa);
+			} catch(Exception e) {
+				LOGGER.error("[sessionmon]testReplication: Error analyzing replicated attributes.", e);
 			}
-			if(!foundMatch)
-				replicatoinFailedAtt.add(sa);
 		}
 		replicatoinFailedAtt.trimToSize();
 		((SessionInfo)sessionFromAllNodes.get(0)).setReplicationFailedAttributes(replicatoinFailedAtt);

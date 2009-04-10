@@ -22,6 +22,8 @@ public class PageRequestProcessor {
 	private static final String PAGE_INVALIDATE_SESSION = "web/invalidate-session.html";
 	private static final String PAGE_MONITOR = "web/monitor.html";
 	
+	private static final String MSG_INTERNAL_ERROR = "<br/><p><font color=\"red\">Sorry, internal error has occurred.</font><p>";
+	
 	public static String process(HttpServletRequest request, HttpServletResponse response) 
 	throws IOException, ServletException {
 		StringBuffer content = new StringBuffer(File.readFileAsString(FRAGMENT_HEADER));
@@ -98,8 +100,10 @@ public class PageRequestProcessor {
 	public static String getConfiguredNodes(HttpServletRequest request) {
 		Configuration config = (Configuration)request.getSession().getServletContext().getAttribute(SessionMonServlet.CONTEXT_PARAMETER_CONFIGURATION);
 		String list = config.getCsvListOfServers();
-		if(list != null)
+		if(list != null && list.trim().length() != 0)
 			list = list.replaceAll("[,]", ", ");
+		else
+			list = "&nbsp;";
 		return list;
 	}
 	
@@ -138,8 +142,10 @@ public class PageRequestProcessor {
 			Report report = ReportFactory.create(CommandEnum.TEST_REPLICATION, ReportFactory.REPORT_TYPE_HTML);
 			html = report.generate(test);
 		} catch(Exception e) {
-			html = "<html><title>SessionMon - Test Replication</title><body>Sorry, internal error has occurred.</body></html>";
+			html = MSG_INTERNAL_ERROR;
 		}
+		if(html == null)
+			html = MSG_INTERNAL_ERROR;
 		return html;
 	}
 	
@@ -150,8 +156,10 @@ public class PageRequestProcessor {
 			Report report = ReportFactory.create(CommandEnum.DUMP, ReportFactory.REPORT_TYPE_HTML);
 			html = report.generate(sessionInfo);
 		} catch(Exception e) {
-			html = "<html><title>SessionMon - Dump Session</title><body>Sorry, internal error has occured.</body></html>";
+			html = MSG_INTERNAL_ERROR;
 		}
+		if(html == null)
+			html = MSG_INTERNAL_ERROR;
 		return html;
 	}
 	

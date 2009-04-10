@@ -39,7 +39,7 @@ public class Configuration {
 		try {
 			json.append("servers", servers);
 		} catch(Exception e) {
-			LOGGER.error("toJSON: error generating JSON", e);
+			LOGGER.error("[sessionmon]toJSON: error generating JSON", e);
 		}
 		return json.toString();
 	}

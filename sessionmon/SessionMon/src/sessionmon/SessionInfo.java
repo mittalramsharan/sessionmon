@@ -29,8 +29,12 @@ public class SessionInfo {
 	private Date lastAccessedTime = null;
 	private int maxInactiveIntervalInSeconds = 0;
 	private boolean isNew = false;
+	private String errorMessage = null;
 	
-	public SessionInfo(){}
+	public SessionInfo(String serverName, String errorMessage){
+		this.serverName = serverName;
+		this.errorMessage = errorMessage;
+	}
 	
 	public SessionInfo(JSONObject j) {
 		try {
@@ -50,6 +54,7 @@ public class SessionInfo {
 			for(int i=0; i<array.length(); i++) {
 				JSONObject jatt = (JSONObject)array.get(i);
 				SessionAttribute att = new SessionAttribute();
+				att.setServer(serverName + ":" + serverPort);
 				att.setName(jatt.getString("name"));
 				att.setObjectGraphSizeInBytes(jatt.getInt("objectGraphSizeInBytes"));
 				att.setObjectSerializedSizeInBytes(jatt.getInt("objectSerializedSizeInBytes"));
@@ -74,6 +79,7 @@ public class SessionInfo {
 				JavaObjectProfiler p = new JavaObjectProfiler(obj);
 				//store as SessionAttribute
 				SessionAttribute attr = new SessionAttribute();
+				attr.setServer(serverName + ":" + serverPort);
 				attr.setName(attrName);
 				attr.setObjectType(p.getObjectType());
 				attr.setToStringValue(p.getToStringValue());
@@ -142,5 +148,9 @@ public class SessionInfo {
 	public void setReplicationFailedAttributes(
 			Collection replicationFailedAttributes) {
 		this.replicationFailedAttributes = replicationFailedAttributes;
+	}
+
+	public String getErrorMessage() {
+		return errorMessage;
 	}
 }

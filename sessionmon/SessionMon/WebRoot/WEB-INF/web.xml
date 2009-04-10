@@ -13,7 +13,7 @@
 		</init-param>
 		<init-param>
 			<param-name>server_node_addresses</param-name>
-			<param-value>http://localhost:8080,http://localhost:8080,http://localhost:8080</param-value>
+			<param-value>http://localhost:8080,http://localhost:8080</param-value>
 		</init-param>
 		<!-- init-param>
 			<param-name>override_path</param-name>
