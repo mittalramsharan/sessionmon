@@ -59,7 +59,7 @@ public class SessionMonServlet extends HttpServlet {
 		Configuration config = (Configuration)request.getSession().getServletContext().getAttribute(SessionMonServlet.CONTEXT_PARAMETER_CONFIGURATION);
 		//send not found error if sessionmon servlet is not enabled
 		if(!config.isEnabled()) {
-			LOGGER.warn("SessionMon is disabled. Modify the web descriptor to change this setting.");
+			LOGGER.warn("[sessionmon]SessionMon is disabled. Modify the web descriptor to change this setting.");
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			return;
 		}
@@ -72,7 +72,7 @@ public class SessionMonServlet extends HttpServlet {
 		try {
 			command = CommandEnum.valueOf(commandParam);
 		} catch(IllegalArgumentException e) {
-			LOGGER.warn("Received unkown command.");
+			LOGGER.warn("[sessionmon]Received unkown command.");
 		}
 		
 		//controller
@@ -117,7 +117,7 @@ public class SessionMonServlet extends HttpServlet {
 		if(servers != null) {
 			configuration = new Configuration(servers);
 		} else {
-			LOGGER.warn("server_node_addresses parameter is not specified");
+			LOGGER.warn("[sessionmon]server_node_addresses parameter is not specified");
 			configuration = new Configuration();
 		}
 		
