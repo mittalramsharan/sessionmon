@@ -6,9 +6,10 @@ version="1.0">
 <table id="table-highlight" summary="Session Information">
 <thead>
 <tr>
-<th scope="col">Total Number of Attributes</th>
-<th scope="col">Total Object Graph Size</th>
-<th scope="col">Total Serialized Size</th>
+<th scope="col">Total # of Active Sessions</th> 
+<th scope="col">Total # of Attributes</th>
+<th scope="col">Latest Attribute Update Time</th>
+<th scope="col">Total Size of All Attributes</th>
 <th scope="col">Creation Time</th>
 <th scope="col">Last Accessed Time</th>
 <th scope="col">Max Inactive Interval</th>
@@ -18,9 +19,11 @@ version="1.0">
 <tbody>
 	<xsl:for-each select="session">
 	<tr>
+	<td><xsl:value-of select="totalNumberOfActiveSessions"/></td>
 	<td><xsl:value-of select="totalNumberOfAttributes"/></td>
-	<td><xsl:value-of select="totalObjectGraphSizeInBytes"/> bytes</td>
-	<td><xsl:value-of select="totalObjectSerializedSizeInBytes"/> bytes</td>
+	<td><xsl:value-of select="lastAttributeUpdateTime"/></td>
+	<td><xsl:value-of select="totalObjectGraphSizeInBytes"/> bytes (Object Graph)<br/>
+		<xsl:value-of select="totalObjectSerializedSizeInBytes"/> bytes (Serialized)</td>
 	<td><xsl:value-of select="creationTime"/></td>
 	<td><xsl:value-of select="lastAccessedTime"/></td>
 	<td><xsl:value-of select="maxInactiveIntervalInSeconds"/> seconds</td>

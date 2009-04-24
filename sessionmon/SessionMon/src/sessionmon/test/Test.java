@@ -16,10 +16,10 @@ import org.apache.log4j.Logger;
 import org.json.JSONObject;
 
 import sessionmon.Configuration;
+import sessionmon.Constants;
 import sessionmon.PageRequestProcessor;
 import sessionmon.SessionAttribute;
 import sessionmon.SessionInfo;
-import sessionmon.SessionMonServlet;
 import sessionmon.util.RandomString;
 
 public class Test {
@@ -33,7 +33,7 @@ public class Test {
 	}
 	
 	public Collection testReplication(String sessionDumpURI) throws OnlyOneNodeException {
-		Configuration config = (Configuration)request.getSession().getServletContext().getAttribute(SessionMonServlet.CONTEXT_PARAMETER_CONFIGURATION);
+		Configuration config = (Configuration)request.getSession().getServletContext().getAttribute(Constants.CONTEXT_PARAMETER_CONFIGURATION);
 		int numOfNodes = config.getServers().size();
 		if(numOfNodes < 2)
 			throw new OnlyOneNodeException();

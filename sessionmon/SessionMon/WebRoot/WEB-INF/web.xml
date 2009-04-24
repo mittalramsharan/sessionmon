@@ -4,6 +4,13 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
 	http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
+	<listener>
+	    <listener-class>sessionmon.SessionListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>sessionmon.SessionAttributeListener</listener-class>
+	</listener>
+
 	<servlet>
 		<servlet-name>SessionMonServlet</servlet-name>
 		<servlet-class>sessionmon.SessionMonServlet</servlet-class>

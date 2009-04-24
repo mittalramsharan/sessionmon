@@ -18,10 +18,6 @@ import sessionmon.test.Test;
 public class SessionMonServlet extends HttpServlet {
 	private static final Logger LOGGER = Logger.getLogger(SessionMonServlet.class);
 	
-	public static final String CONTEXT_PARAMETER_CONFIGURATION = "sessionmon.config";
-	public static final String REQUEST_PARAMETER_COMMAND = "command";
-	public static final String REQUEST_PARAMETER_TYPE = "type";
-	
 	/**
 	 * Constructor of the object.
 	 */
@@ -56,7 +52,7 @@ public class SessionMonServlet extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		Configuration config = (Configuration)request.getSession().getServletContext().getAttribute(SessionMonServlet.CONTEXT_PARAMETER_CONFIGURATION);
+		Configuration config = (Configuration)request.getSession().getServletContext().getAttribute(Constants.CONTEXT_PARAMETER_CONFIGURATION);
 		//send not found error if sessionmon servlet is not enabled
 		if(!config.isEnabled()) {
 			LOGGER.warn("[sessionmon]SessionMon is disabled. Modify the web descriptor to change this setting.");
@@ -67,7 +63,7 @@ public class SessionMonServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		
 		//resolve command
-		String commandParam = request.getParameter(REQUEST_PARAMETER_COMMAND);
+		String commandParam = request.getParameter(Constants.REQUEST_PARAMETER_COMMAND);
 		CommandEnum command = null;
 		try {
 			command = CommandEnum.valueOf(commandParam);
@@ -80,7 +76,7 @@ public class SessionMonServlet extends HttpServlet {
 			if(command.equals(CommandEnum.INVALIDATE_SESSION)) {
 				request.getSession().invalidate();
 			} else {
-				Report report = ReportFactory.create(command, request.getParameter(REQUEST_PARAMETER_TYPE));
+				Report report = ReportFactory.create(command, request.getParameter(Constants.REQUEST_PARAMETER_TYPE));
 				if(report == null) {
 					LOGGER.error("[sessionmon]ReportFactory could not understand your request");
 					out.print("Error, ReportFactory could not understand your request.");
@@ -131,7 +127,7 @@ public class SessionMonServlet extends HttpServlet {
 			configuration.setOverridePath(overridePath);
 		}
 		
-		sc.getServletContext().setAttribute(CONTEXT_PARAMETER_CONFIGURATION, configuration);
+		sc.getServletContext().setAttribute(Constants.CONTEXT_PARAMETER_CONFIGURATION, configuration);
 	}
 
 	/**
