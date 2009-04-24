@@ -98,7 +98,7 @@ public class PageRequestProcessor {
 	}
 	
 	public static String getConfiguredNodes(HttpServletRequest request) {
-		Configuration config = (Configuration)request.getSession().getServletContext().getAttribute(SessionMonServlet.CONTEXT_PARAMETER_CONFIGURATION);
+		Configuration config = (Configuration)request.getSession().getServletContext().getAttribute(Constants.CONTEXT_PARAMETER_CONFIGURATION);
 		String list = config.getCsvListOfServers();
 		if(list != null && list.trim().length() != 0)
 			list = list.replaceAll("[,]", ", ");
@@ -109,7 +109,7 @@ public class PageRequestProcessor {
 	
 	public static String getRequestURI(HttpServletRequest request, boolean onlyPath) {
 		String uri = null;
-		Configuration config = (Configuration)request.getSession().getServletContext().getAttribute(SessionMonServlet.CONTEXT_PARAMETER_CONFIGURATION);
+		Configuration config = (Configuration)request.getSession().getServletContext().getAttribute(Constants.CONTEXT_PARAMETER_CONFIGURATION);
 		if(config != null && config.getOverridePath() != null) {
 			uri = config.getOverridePath();
 		} else {

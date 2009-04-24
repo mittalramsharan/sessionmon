@@ -1,6 +1,7 @@
 package sessionmon;
 
 import java.io.IOException;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -30,6 +31,8 @@ public class SessionInfo {
 	private int maxInactiveIntervalInSeconds = 0;
 	private boolean isNew = false;
 	private String errorMessage = null;
+	private int totalNumberOfActiveSessions = 0;
+	private Date lastAttributeUpdateTime = null;
 	
 	public SessionInfo(String serverName, String errorMessage){
 		this.serverName = serverName;
@@ -44,10 +47,14 @@ public class SessionInfo {
 			id = j.getString("id");
 			totalObjectGraphSizeInBytes = j.getInt("totalObjectGraphSizeInBytes");
 			totalObjectSerializedSizeInBytes = j.getInt("totalObjectSerializedSizeInBytes");
-			creationTime = new Date(j.getString("creationTime"));
-			lastAccessedTime = new Date(j.getString("lastAccessedTime"));
+			creationTime = Constants.DATE_FORMAT_DAY_OF_WEEK_TIME_YEAR.parse(j.getString("creationTime"));
+			lastAccessedTime = Constants.DATE_FORMAT_DAY_OF_WEEK_TIME_YEAR.parse(j.getString("lastAccessedTime"));
 			maxInactiveIntervalInSeconds = j.getInt("maxInactiveIntervalInSeconds");
 			isNew = j.getBoolean("new");
+			totalNumberOfActiveSessions = j.getInt("totalNumberOfActiveSessions");
+			String temp = j.getString("lastAttributeUpdateTime");
+			if(!j.getString("lastAttributeUpdateTime").equals("null"))
+				lastAttributeUpdateTime = Constants.DATE_FORMAT_DAY_OF_WEEK_TIME_YEAR.parse(temp);
 			
 			attributes = new ArrayList();
 			JSONArray array = j.getJSONArray("attributes");
@@ -97,6 +104,11 @@ public class SessionInfo {
 		this.lastAccessedTime = new Date(session.getLastAccessedTime());
 		this.maxInactiveIntervalInSeconds = session.getMaxInactiveInterval();
 		this.isNew = session.isNew();
+		
+		Integer totalNumOfActiveSessions = (Integer)session.getServletContext().getAttribute(Constants.CONTEXT_PARAMETER_TOTAL_NUMBER_OF_ACTIVE_SESSIONS);
+		if(totalNumOfActiveSessions != null)
+			this.totalNumberOfActiveSessions = totalNumOfActiveSessions.intValue();
+		this.lastAttributeUpdateTime = (Date)session.getServletContext().getAttribute(Constants.CONTEXT_PARAMETER_LAST_ATTRIBUTE_UPDATE_TIME);
 		
 		this.serverName = request.getServerName();
 		this.serverPort = request.getServerPort();
@@ -152,5 +164,13 @@ public class SessionInfo {
 
 	public String getErrorMessage() {
 		return errorMessage;
+	}
+
+	public int getTotalNumberOfActiveSessions() {
+		return totalNumberOfActiveSessions;
+	}
+
+	public Date getLastAttributeUpdateTime() {
+		return lastAttributeUpdateTime;
 	}
 }
