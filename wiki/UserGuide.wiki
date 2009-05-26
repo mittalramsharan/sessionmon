@@ -2,5 +2,5 @@
 
 = User Guide: SessionMon =
 
-  * [UserGuideGUI How to use SessionMon via GUI]
+  * [UserGuideDeploy How to deploy SessionMon in your web application]
   * [UserGuideAPI How to use SessionMon via API]
