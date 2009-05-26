@@ -6,10 +6,10 @@ version="1.0">
 <table id="table-highlight" summary="Session Information">
 <thead>
 <tr>
-<th scope="col">Total # of Active Sessions</th> 
-<th scope="col">Total # of Attributes</th>
-<th scope="col">Latest Attribute Update Time</th>
-<th scope="col">Total Size of All Attributes</th>
+<th scope="col"># of Other Active Sessions</th> 
+<th scope="col"># of Session Attributes</th>
+<th scope="col">Latest Session Attribute Update Time</th>
+<th scope="col">Total Size of All Session Attributes</th>
 <th scope="col">Creation Time</th>
 <th scope="col">Last Accessed Time</th>
 <th scope="col">Max Inactive Interval</th>
@@ -19,7 +19,7 @@ version="1.0">
 <tbody>
 	<xsl:for-each select="session">
 	<tr>
-	<td><xsl:value-of select="totalNumberOfActiveSessions"/></td>
+	<td><xsl:value-of select="totalNumberOfOtherActiveSessions"/></td>
 	<td><xsl:value-of select="totalNumberOfAttributes"/></td>
 	<td><xsl:value-of select="lastAttributeUpdateTime"/></td>
 	<td><xsl:value-of select="totalObjectGraphSizeInBytes"/> bytes (Object Graph)<br/>

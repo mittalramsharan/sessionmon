@@ -13,10 +13,10 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <thead>
 <tr>
 <th scope="col">Node</th>
-<th scope="col">Total # of Active Sessions</th>
-<th scope="col">Total # of Attributes</th>
-<th scope="col">Latest Attribute Update Time</th>
-<th scope="col">Total Size of All Attributes</th>
+<th scope="col"># of Other Active Sessions</th>
+<th scope="col"># of Session Attributes</th>
+<th scope="col">Latest Session Attribute Update Time</th>
+<th scope="col">Total Size of All Session Attributes</th>
 <th scope="col">Creation Time</th>
 <th scope="col">Last Accessed Time</th>
 <th scope="col">Max Inactive Interval</th>
@@ -27,7 +27,7 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	<xsl:for-each select="replicationTest/session">
 	<tr>
 	<td><xsl:value-of select="serverName"/>:<xsl:value-of select="serverPort"/></td>
-	<td><xsl:value-of select="totalNumberOfActiveSessions"/></td>
+	<td><xsl:value-of select="totalNumberOfOtherActiveSessions"/></td>
 	<td><xsl:value-of select="totalNumberOfAttributes"/></td>
 	<td><xsl:value-of select="lastAttributeUpdateTime"/></td>
 	<td><xsl:value-of select="totalObjectGraphSizeInBytes"/> bytes (Object Graph)<br/>

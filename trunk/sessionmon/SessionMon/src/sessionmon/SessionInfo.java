@@ -1,7 +1,6 @@
 package sessionmon;
 
 import java.io.IOException;
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -168,6 +167,13 @@ public class SessionInfo {
 
 	public int getTotalNumberOfActiveSessions() {
 		return totalNumberOfActiveSessions;
+	}
+	
+	public int getTotalNumberOfOtherActiveSessions() {
+		if(totalNumberOfActiveSessions != 0)
+			return totalNumberOfActiveSessions - 1;
+		else
+			return totalNumberOfActiveSessions;
 	}
 
 	public Date getLastAttributeUpdateTime() {
