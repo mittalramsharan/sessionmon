@@ -1,0 +1,41 @@
+#summary How to deploy SessionMon in your web application
+
+===How to deploy SessionMon in your web application===
+  # Download and save [http://code.google.com/p/sessionmon/downloads/list sessionmon.jar] into your lib directory along with the dependency JARs that are bundled in the ZIP file.
+  # Edit your web.xml to deploy SessionMon Servlet and listeners like this:
+{{{
+<listener>
+	<listener-class>sessionmon.SessionListener</listener-class>
+</listener>
+<listener>
+	<listener-class>sessionmon.SessionAttributeListener</listener-class>
+</listener>
+<servlet>
+        <servlet-name>SessionMonServlet</servlet-name>
+        <servlet-class>sessionmon.SessionMonServlet</servlet-class>
+        <init-param>
+                <param-name>enabled</param-name>
+                <param-value>true</param-value>
+        </init-param>
+	<!-- needed only if you're running a clustered environment -->
+        <init-param>
+        	<param-name>server_node_addresses</param-name>
+        	<param-value>http://localhost:8080,http://localhost:8081</param-value>
+        </init-param>
+        <!-- optional configuration-->
+        <!--init-param>
+        	<param-name>override_path</param-name>
+        	<param-value>/foo/blah</param-value>
+        </init-param-->
+</servlet>
+
+<servlet-mapping>
+	<servlet-name>SessionMonServlet</servlet-name>
+	<url-pattern>/sessionmon/*</url-pattern>
+</servlet-mapping>
+}}}
+  # Navigate to a point/page of your application workflow where you want to monitor session in your favorite web browser.
+  # Access SessionMonServlet from the same browser used in previous step.
+    # GUI: {{{http://your-host/your-application/sessionmon}}}
+    # JSON Dump: {{{http://your-host/your-application/sessionmon?command=dump&type=json}}}
+    # XML Dump: {{{http://your-host/your-application/sessionmon?command=dump&type=xml}}}
