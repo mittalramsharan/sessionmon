@@ -1,4 +1,6 @@
-#summary User Guide: SessionMon
+#summary User Guide
+
+= User Guide: SessionMon =
 
   * [UserGuideGUI How to use SessionMon via GUI]
   * [UserGuideAPI How to use SessionMon via API]
