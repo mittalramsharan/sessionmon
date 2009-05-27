@@ -170,10 +170,10 @@ public class SessionInfo {
 	}
 	
 	public int getTotalNumberOfOtherActiveSessions() {
-		if(totalNumberOfActiveSessions != 0)
+		if(totalNumberOfActiveSessions > 0)
 			return totalNumberOfActiveSessions - 1;
 		else
-			return totalNumberOfActiveSessions;
+			return 0;
 	}
 
 	public Date getLastAttributeUpdateTime() {
