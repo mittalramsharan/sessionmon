@@ -48,8 +48,12 @@ public class JavaObjectProfiler {
 			objectType = obj.getClass().getName();
 			toStringValue = obj.toString();
 			
-			IObjectProfileNode profile = ObjectProfiler.profile (obj);
-			objectGraphSizeInBytes = profile.size();
+			try {
+				IObjectProfileNode profile = ObjectProfiler.profile (obj);
+				objectGraphSizeInBytes = profile.size();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
