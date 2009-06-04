@@ -54,7 +54,14 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 			<td width="15%"><xsl:value-of select="server"/></td>
 			<td width="15%"><xsl:value-of select="name"/><br/>(<xsl:value-of select="objectType"/>)</td>
 			<td width="55%"><xsl:value-of select="toStringValue"/></td>
-			<td width="15%"><xsl:value-of select="objectGraphSizeInBytes"/> bytes (Object Graph)<br/><xsl:value-of select="objectSerializedSizeInBytes"/> bytes (Serialized)</td>
+			<td width="15%">
+			<xsl:if test="objectGraphSizeInBytes = 0">
+				N/A bytes (Object Graph)<br/>
+			</xsl:if>
+			<xsl:if test="objectGraphSizeInBytes &gt; 0">
+				<xsl:value-of select="objectGraphSizeInBytes"/> bytes (Object Graph)<br/>
+			</xsl:if>
+			<xsl:value-of select="objectSerializedSizeInBytes"/> bytes (Serialized)</td>
 			</tr>
 			</xsl:for-each>
 		</tbody>
