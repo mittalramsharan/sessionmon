@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -30,8 +31,13 @@ public class SessionInfo {
 	private int maxInactiveIntervalInSeconds = 0;
 	private boolean isNew = false;
 	private String errorMessage = null;
-	private int totalNumberOfActiveSessions = 0;
+	private List activeSessions = null;
 	private Date lastAttributeUpdateTime = null;
+	
+	public SessionInfo(String id, Date creationTime) {
+		this.id = id;
+		this.creationTime = creationTime;
+	}
 	
 	public SessionInfo(String serverName, String errorMessage){
 		this.serverName = serverName;
@@ -50,10 +56,9 @@ public class SessionInfo {
 			lastAccessedTime = Constants.DATE_FORMAT_DAY_OF_WEEK_TIME_YEAR.parse(j.getString("lastAccessedTime"));
 			maxInactiveIntervalInSeconds = j.getInt("maxInactiveIntervalInSeconds");
 			isNew = j.getBoolean("new");
-			totalNumberOfActiveSessions = j.getInt("totalNumberOfActiveSessions");
-			String temp = j.getString("lastAttributeUpdateTime");
+			
 			if(!j.getString("lastAttributeUpdateTime").equals("null"))
-				lastAttributeUpdateTime = Constants.DATE_FORMAT_DAY_OF_WEEK_TIME_YEAR.parse(temp);
+				lastAttributeUpdateTime = Constants.DATE_FORMAT_DAY_OF_WEEK_TIME_YEAR.parse(j.getString("lastAttributeUpdateTime"));
 			
 			attributes = new ArrayList();
 			JSONArray array = j.getJSONArray("attributes");
@@ -67,6 +72,13 @@ public class SessionInfo {
 				att.setObjectType(jatt.getString("objectType"));
 				att.setToStringValue(jatt.getString("toStringValue"));
 				attributes.add(att);
+			}
+			
+			activeSessions = new ArrayList();
+			array = j.getJSONArray("activeSessions");
+			for(int i=0; i<array.length(); i++) {
+				String as = array.getString(i);
+				activeSessions.add(as);
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -103,12 +115,8 @@ public class SessionInfo {
 		this.lastAccessedTime = new Date(session.getLastAccessedTime());
 		this.maxInactiveIntervalInSeconds = session.getMaxInactiveInterval();
 		this.isNew = session.isNew();
-		
-		Integer totalNumOfActiveSessions = (Integer)session.getServletContext().getAttribute(Constants.CONTEXT_PARAMETER_TOTAL_NUMBER_OF_ACTIVE_SESSIONS);
-		if(totalNumOfActiveSessions != null)
-			this.totalNumberOfActiveSessions = totalNumOfActiveSessions.intValue();
+		this.activeSessions = (List)session.getServletContext().getAttribute(Constants.CONTEXT_PARAMETER_ACTIVE_SESSIONS);
 		this.lastAttributeUpdateTime = (Date)session.getServletContext().getAttribute(Constants.CONTEXT_PARAMETER_LAST_ATTRIBUTE_UPDATE_TIME);
-		
 		this.serverName = request.getServerName();
 		this.serverPort = request.getServerPort();
 		this.applicationURL = request.getContextPath();
@@ -165,18 +173,19 @@ public class SessionInfo {
 		return errorMessage;
 	}
 
-	public int getTotalNumberOfActiveSessions() {
-		return totalNumberOfActiveSessions;
+	public Date getLastAttributeUpdateTime() {
+		return lastAttributeUpdateTime;
+	}
+
+	public Collection getActiveSessions() {
+		return activeSessions;
 	}
 	
 	public int getTotalNumberOfOtherActiveSessions() {
-		if(totalNumberOfActiveSessions > 0)
-			return totalNumberOfActiveSessions - 1;
+		int numOfActiveSessions = activeSessions.size();
+		if(numOfActiveSessions != 0)
+			return numOfActiveSessions - 1;
 		else
 			return 0;
-	}
-
-	public Date getLastAttributeUpdateTime() {
-		return lastAttributeUpdateTime;
 	}
 }
