@@ -10,12 +10,14 @@ import java.util.Iterator;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import sessionmon.util.JavaObjectProfiler;
 
 public class SessionInfo {
+	private static final Logger LOGGER = Logger.getLogger(SessionInfo.class);
 	
 	private String serverName = null;
 	private int serverPort = 0;
@@ -110,14 +112,18 @@ public class SessionInfo {
 		this.applicationURL = request.getContextPath();
 		
 		Collection activeSessions = (Collection)session.getServletContext().getAttribute(Constants.CONTEXT_PARAMETER_ACTIVE_SESSIONS);
-		StringBuffer sb = new StringBuffer();
-		Iterator asIterator = activeSessions.iterator();
-		while(asIterator.hasNext()) {
-			sb.append(asIterator.next());
-			sb.append(",");
+		if(activeSessions != null) {
+			StringBuffer sb = new StringBuffer();
+			Iterator asIterator = activeSessions.iterator();
+			while(asIterator.hasNext()) {
+				sb.append(asIterator.next());
+				sb.append(",");
+			}
+			sb.deleteCharAt(sb.length() - 1);
+			this.activeSessionIds = sb.toString();
+		} else {
+			LOGGER.warn("SessionInfo: SessionListner might not be properly configured. Please check web.xml file.");
 		}
-		sb.deleteCharAt(sb.length() - 1);
-		this.activeSessionIds = sb.toString();
 	}
 	public int getTotalNumberOfAttributes() {
 		return attributes.size();
@@ -176,11 +182,12 @@ public class SessionInfo {
 	}
 	
 	public int getTotalNumberOfOtherActiveSessions() {
-		int numOfActiveSessions = this.activeSessionIds.split("[,]").length;
-		if(numOfActiveSessions != 0)
-			return numOfActiveSessions - 1;
-		else
-			return 0;
+		if(this.activeSessionIds != null) {
+			int numOfActiveSessions = this.activeSessionIds.split("[,]").length;
+			if(numOfActiveSessions != 0)
+				return numOfActiveSessions - 1;
+		}
+		return 0;
 	}
 
 	public String getActiveSessionIds() {
