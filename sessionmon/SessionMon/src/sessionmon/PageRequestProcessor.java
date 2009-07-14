@@ -37,6 +37,14 @@ public class PageRequestProcessor {
 		return evaluateContent(page, content.toString(), request);
 	}
 	
+	private static String escapeSpecialCharsForReplaceFunction(String input) {
+		if(input != null) {
+			return input.replaceAll("\\$","\\\\\\$");
+		} else {
+			return null;
+		}
+	}
+	
 	private static String evaluateContent(String page, String c, HttpServletRequest request) {
 		c = c.replaceAll("[$]{1}requesturi", getRequestURI(request, true));
 		
@@ -57,7 +65,7 @@ public class PageRequestProcessor {
 			c = c.replaceAll("[$]{1}sessionid", request.getSession().getId());
 			c = c.replaceAll("[$]{1}timestamp", getTimestamp());
 			
-			c = c.replaceFirst("[$]{1}maincontent", getDumpSessionHTMLContent(request));	
+			c = c.replaceFirst("[$]{1}maincontent", escapeSpecialCharsForReplaceFunction(getDumpSessionHTMLContent(request)));	
 			c = c.replaceFirst("[$]{1}csscontent", File.readFileAsString(CSS_COMMON));
 		} else if(page.equals(PAGE_TEST_REPLICATION)) {
 			c = c.replaceFirst("Test Replication", "&gt;&gt;Test Replication");
@@ -68,7 +76,7 @@ public class PageRequestProcessor {
 			c = c.replaceAll("[$]{1}timestamp", getTimestamp());
 			c = c.replaceAll("[$]{1}nodes", getConfiguredNodes(request));
 			
-			c = c.replaceFirst("[$]{1}maincontent", getTestReplicationHTMLContent(request));
+			c = c.replaceFirst("[$]{1}maincontent", escapeSpecialCharsForReplaceFunction(getTestReplicationHTMLContent(request)));
 			c = c.replaceFirst("[$]{1}csscontent", File.readFileAsString(CSS_COMMON));
 		} else if(page.equals(PAGE_INVALIDATE_SESSION)) {
 			c = c.replaceFirst("Invalidate Session", "&gt;&gt;Invalidate Session");
