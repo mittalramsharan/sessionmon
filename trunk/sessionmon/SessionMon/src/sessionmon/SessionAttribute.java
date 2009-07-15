@@ -1,6 +1,8 @@
 package sessionmon;
 
-public class SessionAttribute {
+import java.io.Serializable;
+
+public class SessionAttribute implements Serializable {
 	private String server = null;
 	private String name = null;
 	private String objectType = null;
