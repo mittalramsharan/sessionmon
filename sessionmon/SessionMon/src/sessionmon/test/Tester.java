@@ -22,12 +22,12 @@ import sessionmon.SessionAttribute;
 import sessionmon.SessionInfo;
 import sessionmon.util.RandomString;
 
-public class Test {
-	private static final Logger LOGGER = Logger.getLogger(Test.class);
+public class Tester {
+	private static final Logger LOGGER = Logger.getLogger(Tester.class);
 	
 	private HttpServletRequest request = null;
 	
-	public Test(HttpServletRequest request) {
+	public Tester(HttpServletRequest request) {
 		this.request = request;
 		//addStringAttributes(3);
 	}
