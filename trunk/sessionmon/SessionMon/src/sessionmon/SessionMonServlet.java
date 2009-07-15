@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
 
 import sessionmon.report.Report;
 import sessionmon.report.ReportFactory;
-import sessionmon.test.Test;
+import sessionmon.test.Tester;
 
 public class SessionMonServlet extends HttpServlet {
 	private static final Logger LOGGER = Logger.getLogger(SessionMonServlet.class);
@@ -86,7 +86,7 @@ public class SessionMonServlet extends HttpServlet {
 						SessionInfo sessionInfo = new SessionInfo(request);
 						out.print(report.generate(sessionInfo));
 					} else if(command.equals(CommandEnum.TEST_REPLICATION)) {
-						Test sessionTest = new Test(request);
+						Tester sessionTest = new Tester(request);
 						out.print(report.generate(sessionTest));
 					}
 				}

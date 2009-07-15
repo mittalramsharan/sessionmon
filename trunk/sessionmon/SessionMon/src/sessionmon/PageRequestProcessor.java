@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import sessionmon.report.Report;
 import sessionmon.report.ReportFactory;
-import sessionmon.test.Test;
+import sessionmon.test.Tester;
 import sessionmon.util.File;
 
 public class PageRequestProcessor {
@@ -146,7 +146,7 @@ public class PageRequestProcessor {
 	private static String getTestReplicationHTMLContent(HttpServletRequest request) {
 		String html = null;
 		try {
-			Test test = new Test(request);
+			Tester test = new Tester(request);
 			Report report = ReportFactory.create(CommandEnum.TEST_REPLICATION, ReportFactory.REPORT_TYPE_HTML);
 			html = report.generate(test);
 		} catch(Exception e) {

@@ -15,14 +15,14 @@ import org.json.XML;
 import sessionmon.PageRequestProcessor;
 import sessionmon.SessionInfo;
 import sessionmon.test.OnlyOneNodeException;
-import sessionmon.test.Test;
+import sessionmon.test.Tester;
 import sessionmon.util.File;
 
 public class TestReplicationReportHTML extends Report {
 	private static final Logger LOGGER = Logger.getLogger(TestReplicationReportHTML.class);
 	
 	public String generate(Object info) {
-		Test test = (Test)info;
+		Tester test = (Tester)info;
 		HttpServletRequest request = test.getRequest();
 		
 		StringBuffer xml = null;
