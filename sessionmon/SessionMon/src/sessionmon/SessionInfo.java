@@ -1,6 +1,7 @@
 package sessionmon;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -16,7 +17,7 @@ import org.json.JSONObject;
 
 import sessionmon.util.JavaObjectProfiler;
 
-public class SessionInfo {
+public class SessionInfo implements Serializable {
 	private static final Logger LOGGER = Logger.getLogger(SessionInfo.class);
 	
 	private String serverName = null;

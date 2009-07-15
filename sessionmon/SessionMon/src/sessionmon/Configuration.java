@@ -1,11 +1,12 @@
 package sessionmon;
 
+import java.io.Serializable;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
 
-public class Configuration {
+public class Configuration implements Serializable {
 	private static final Logger LOGGER = Logger.getLogger(Configuration.class);
 	
 	private boolean enabled = false;
