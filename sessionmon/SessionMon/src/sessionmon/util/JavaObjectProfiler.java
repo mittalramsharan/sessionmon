@@ -1,7 +1,7 @@
 package sessionmon.util;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import java.io.NotSerializableException;
 import java.io.ObjectOutputStream;
 
 import com.vladium.utils.IObjectProfileNode;
@@ -16,6 +16,7 @@ public class JavaObjectProfiler {
 	private int objectGraphSizeInBytes;
 	private int objectSerializedSizeInBytes;
 	private String toStringValue;
+	private boolean isSerializable;
 	
 	public JavaObjectProfiler(Object o) throws IllegalArgumentException {
 		if(o == null)
@@ -40,21 +41,25 @@ public class JavaObjectProfiler {
 	}
 	
 	private void init() {
-		bs = new ByteArrayOutputStream();
+		isSerializable = true;
 		try {
+			bs = new ByteArrayOutputStream();
 			os = new ObjectOutputStream(bs);
 			os.writeObject(obj);
 			objectSerializedSizeInBytes = bs.size();
-			objectType = obj.getClass().getName();
-			toStringValue = obj.toString();
-			
-			try {
-				IObjectProfileNode profile = ObjectProfiler.profile (obj);
-				objectGraphSizeInBytes = profile.size();
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-		} catch(IOException e) {
+		} catch(NotSerializableException e) {
+			isSerializable = false;
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		objectType = obj.getClass().getName();
+		toStringValue = obj.toString();
+		
+		try {
+			IObjectProfileNode profile = ObjectProfiler.profile (obj);
+			objectGraphSizeInBytes = profile.size();
+		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -73,5 +78,9 @@ public class JavaObjectProfiler {
 
 	public String getToStringValue() {
 		return toStringValue;
+	}
+
+	public boolean isSerializable() {
+		return isSerializable;
 	}
 }
