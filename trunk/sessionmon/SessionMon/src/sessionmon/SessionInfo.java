@@ -70,6 +70,7 @@ public class SessionInfo implements Serializable {
 				att.setObjectSerializedSizeInBytes(jatt.getInt("objectSerializedSizeInBytes"));
 				att.setObjectType(jatt.getString("objectType"));
 				att.setToStringValue(jatt.getString("toStringValue"));
+				att.setSerializable(jatt.getBoolean("serializable"));
 				attributes.add(att);
 			}
 		} catch(Exception e) {
@@ -95,6 +96,7 @@ public class SessionInfo implements Serializable {
 				attr.setToStringValue(p.getToStringValue());
 				attr.setObjectGraphSizeInBytes(p.getObjectGraphSizeInBytes());
 				attr.setObjectSerializedSizeInBytes(p.getObjectSerializedSizeInBytes());
+				attr.setSerializable(p.isSerializable());
 				
 				totalObjectGraphSizeInBytes += p.getObjectGraphSizeInBytes();
 				totalObjectSerializedSizeInBytes += p.getObjectSerializedSizeInBytes();

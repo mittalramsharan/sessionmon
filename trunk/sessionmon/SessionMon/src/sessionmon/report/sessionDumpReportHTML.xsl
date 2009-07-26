@@ -36,23 +36,37 @@ version="1.0">
 <table id="table-highlight" summary="Session Attributes">
 		<thead>
 		<tr>
-		<th colspan="3">Attributes</th>
+		<th colspan="4">Attributes</th>
 		</tr>
 		</thead>
 		<tbody>
 			<xsl:for-each select="session/attributes">
 			<xsl:sort select="name"/>
 			<tr>
-			<td width="25%"><xsl:value-of select="name"/><br/>(<xsl:value-of select="objectType"/>)</td>
-			<td width="50%"><xsl:value-of select="toStringValue"/></td>
-			<td width="25%">
-			<xsl:if test="objectGraphSizeInBytes = 0">
-				N/A bytes (Object Graph)<br/>
-			</xsl:if>
-			<xsl:if test="objectGraphSizeInBytes &gt; 0">
-				<xsl:value-of select="objectGraphSizeInBytes"/> bytes (Object Graph)<br/>
-			</xsl:if>
-			<xsl:value-of select="objectSerializedSizeInBytes"/> bytes (Serialized)</td>
+				<td width="25%"><xsl:value-of select="name"/><br/>(<xsl:value-of select="objectType"/>)</td>
+				<td width="45%"><xsl:value-of select="toStringValue"/></td>
+				<td width="10%">
+					<xsl:if test="serializable = 'true'">
+						Serializable
+					</xsl:if>
+					<xsl:if test="serializable = 'false'">
+						Not Serializable
+					</xsl:if>
+				</td>
+				<td width="20%">
+					<xsl:if test="objectGraphSizeInBytes = 0">
+						N/A bytes (Object Graph)<br/>
+					</xsl:if>
+					<xsl:if test="objectGraphSizeInBytes &gt; 0">
+						<xsl:value-of select="objectGraphSizeInBytes"/> bytes (Object Graph)<br/>
+					</xsl:if>
+					<xsl:if test="objectSerializedSizeInBytes = 0">
+						N/A bytes (Serialized)
+					</xsl:if>
+					<xsl:if test="objectSerializedSizeInBytes &gt; 0">
+						<xsl:value-of select="objectSerializedSizeInBytes"/> bytes (Serialized)
+					</xsl:if>
+				</td>
 			</tr>
 			</xsl:for-each>
 		</tbody>

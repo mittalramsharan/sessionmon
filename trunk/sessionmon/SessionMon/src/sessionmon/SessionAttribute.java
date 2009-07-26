@@ -9,6 +9,7 @@ public class SessionAttribute implements Serializable {
 	private String toStringValue = null;
 	private int objectGraphSizeInBytes = 0;
 	private int objectSerializedSizeInBytes = 0;
+	private boolean isSerializable = false;
 	
 	public String getName() {
 		return name;
@@ -45,6 +46,12 @@ public class SessionAttribute implements Serializable {
 	}
 	public void setServer(String server) {
 		this.server = server;
+	}
+	public boolean isSerializable() {
+		return isSerializable;
+	}
+	public void setSerializable(boolean isSerializable) {
+		this.isSerializable = isSerializable;
 	}
 
 }
