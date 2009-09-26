@@ -34,7 +34,7 @@
 	<url-pattern>/sessionmon/*</url-pattern>
 </servlet-mapping>
 }}}
-  # Navigate to a point/page of your application workflow where you want to monitor session in your favorite web browser.
+  # Navigate to a page in your application workflow where you want to monitor session in your favorite web browser.
   # Access SessionMonServlet from the same browser used in previous step.
     # GUI: {{{http://your-host/your-application/sessionmon}}}
     # JSON Dump: {{{http://your-host/your-application/sessionmon?command=dump&type=json}}}
